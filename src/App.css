@@ -2790,6 +2790,135 @@ img {
   transition: box-shadow 0.15s;
 }
 
+/* ─── Invest Modal ─── */
+.invest-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.invest-modal {
+  background: var(--bg-white);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: var(--shadow-xl);
+}
+
+.invest-modal h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  color: var(--text);
+}
+
+.invest-modal-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: var(--bg-alt);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.invest-modal-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  font-size: 0.9rem;
+}
+
+.invest-modal-row span {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.invest-modal-row strong {
+  text-align: right;
+  color: var(--text);
+  word-break: break-word;
+}
+
+.invest-modal-disclaimer {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 1.25rem;
+  padding: 0.5rem;
+  background: var(--partial-bg);
+  color: var(--partial-text);
+  border-radius: var(--radius-sm);
+}
+
+.invest-modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
+/* ─── Invest Success State ─── */
+.invest-success {
+  text-align: center;
+  padding: 1.25rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.invest-success-icon {
+  color: var(--primary);
+}
+
+.invest-success-title {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.invest-success-amount {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.invest-success-msg {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* ─── Invest min note ─── */
+.invest-min-note {
+  font-size: 0.8rem;
+  color: var(--unverified-text);
+}
+
+.cd-back-form input.input-error {
+  border-color: var(--unverified-text);
+  background: var(--unverified-bg);
+}
+
+/* ─── Risk text colors ─── */
+.risk-text-low {
+  color: #059669;
+}
+
+.risk-text-medium {
+  color: #d97706;
+}
+
+.risk-text-high {
+  color: #dc2626;
+}
+
 .user-avatar-link:hover {
   box-shadow: 0 0 0 3px var(--primary);
 }

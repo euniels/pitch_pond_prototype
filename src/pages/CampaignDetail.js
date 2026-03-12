@@ -35,6 +35,31 @@ export default function CampaignDetail({ currentUser }) {
     const [activeTab, setActiveTab] = useState('overview');
     const [comment, setComment] = useState('');
     const [backAmount, setBackAmount] = useState('');
+    const [amountError, setAmountError] = useState('');
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [invested, setInvested] = useState(false);
+    const [localRaised, setLocalRaised] = useState(campaign?.raised ?? 0);
+    const [localBackers, setLocalBackers] = useState(campaign?.backers ?? 0);
+
+    const handleInvestClick = () => {
+        if (!backAmount || backAmount === '') {
+            setAmountError('Please enter an amount before proceeding.');
+            return;
+        }
+        if (Number(backAmount) < 500) {
+            setAmountError('Minimum amount is ₱500.');
+            return;
+        }
+        setAmountError('');
+        setShowConfirm(true);
+    };
+
+    const handleConfirmInvest = () => {
+        setLocalRaised(prev => prev + Number(backAmount));
+        setLocalBackers(prev => prev + 1);
+        setShowConfirm(false);
+        setInvested(true);
+    };
 
     if (!campaign) {
         return (
@@ -45,7 +70,7 @@ export default function CampaignDetail({ currentUser }) {
         );
     }
 
-    const percent = Math.round((campaign.raised / campaign.goal) * 100);
+    const percent = Math.round((localRaised / campaign.goal) * 100);
     const tabs = ['overview', 'updates', 'milestones', 'backers', 'analytics'];
 
     return (
@@ -232,7 +257,7 @@ export default function CampaignDetail({ currentUser }) {
                     {/* Funding Progress */}
                     <div className="cd-sidebar-card cd-funding">
                         <div className="cd-funding-amount">
-                            <strong>{formatCurrency(campaign.raised)}</strong>
+                            <strong>{formatCurrency(localRaised)}</strong>
                             <span>of {formatCurrency(campaign.goal)}</span>
                         </div>
                         <div className="progress-bar progress-bar-lg">
@@ -241,7 +266,7 @@ export default function CampaignDetail({ currentUser }) {
                         <span className="cd-funding-percent">{percent}% funded</span>
 
                         <div className="cd-funding-stats">
-                            <div><Users size={16} /> <strong>{campaign.backers}</strong> backers</div>
+                            <div><Users size={16} /> <strong>{localBackers}</strong> backers</div>
                             <div><Clock size={16} /> <strong>{campaign.daysLeft}</strong> days left</div>
                         </div>
 
@@ -253,18 +278,38 @@ export default function CampaignDetail({ currentUser }) {
 
                         {/* Back / Invest */}
                         {currentUser ? (
-                            <div className="cd-back-form">
-                                <input
-                                    type="number"
-                                    placeholder={campaign.type === 'investment' ? 'Investment amount (₱)' : 'Donation amount (₱)'}
-                                    value={backAmount}
-                                    onChange={e => setBackAmount(e.target.value)}
-                                    min="500"
-                                />
-                                <button className="btn btn-primary btn-block">
-                                    {campaign.type === 'investment' ? 'Invest Now' : 'Back This Campaign'}
-                                </button>
-                            </div>
+                            invested ? (
+                                <div className="invest-success">
+                                    <CheckCircle2 size={32} className="invest-success-icon" />
+                                    <p className="invest-success-title">
+                                        {campaign.type === 'investment' ? 'Investment Confirmed!' : 'Backing Confirmed!'}
+                                    </p>
+                                    <p className="invest-success-amount">{formatCurrency(Number(backAmount))}</p>
+                                    <p className="invest-success-msg">
+                                        Thank you for supporting <strong>{campaign.title}</strong>.
+                                    </p>
+                                </div>
+                            ) : (
+                                <div className="cd-back-form">
+                                    <input
+                                        type="number"
+                                        placeholder={campaign.type === 'investment' ? 'Investment amount (₱)' : 'Donation amount (₱)'}
+                                        value={backAmount}
+                                        onChange={e => { setBackAmount(e.target.value); setAmountError(''); }}
+                                        min="500"
+                                        className={amountError ? 'input-error' : ''}
+                                    />
+                                    {amountError && (
+                                        <p className="invest-min-note">{amountError}</p>
+                                    )}
+                                    <button
+                                        className="btn btn-primary btn-block"
+                                        onClick={handleInvestClick}
+                                    >
+                                        {campaign.type === 'investment' ? 'Invest Now' : 'Back This Campaign'}
+                                    </button>
+                                </div>
+                            )
                         ) : (
                             <Link to="/signin" className="btn btn-primary btn-block">
                                 Sign In to {campaign.type === 'investment' ? 'Invest' : 'Back'}
@@ -312,6 +357,44 @@ export default function CampaignDetail({ currentUser }) {
                     </div>
                 </div>
             </div>
+
+            {/* Confirmation Modal */}
+            {showConfirm && (
+                <div className="invest-modal-overlay" onClick={() => setShowConfirm(false)}>
+                    <div className="invest-modal" onClick={e => e.stopPropagation()}>
+                        <h3>Confirm {campaign.type === 'investment' ? 'Investment' : 'Backing'}</h3>
+                        <div className="invest-modal-details">
+                            <div className="invest-modal-row">
+                                <span>Campaign</span>
+                                <strong>{campaign.title}</strong>
+                            </div>
+                            <div className="invest-modal-row">
+                                <span>Amount</span>
+                                <strong>{formatCurrency(Number(backAmount))}</strong>
+                            </div>
+                            {campaign.type === 'investment' && campaign.equityOffered && (
+                                <div className="invest-modal-row">
+                                    <span>Est. Equity</span>
+                                    <strong>~{((Number(backAmount) / campaign.goal) * campaign.equityOffered).toFixed(4)}%</strong>
+                                </div>
+                            )}
+                            <div className="invest-modal-row">
+                                <span>Risk Level</span>
+                                <strong className={`risk-text-${campaign.riskLevel}`}>
+                                    {campaign.riskLevel.charAt(0).toUpperCase() + campaign.riskLevel.slice(1)}
+                                </strong>
+                            </div>
+                        </div>
+                        <p className="invest-modal-disclaimer">
+                            This is a prototype. No real transaction will occur.
+                        </p>
+                        <div className="invest-modal-actions">
+                            <button className="btn btn-ghost" onClick={() => setShowConfirm(false)}>Cancel</button>
+                            <button className="btn btn-primary" onClick={handleConfirmInvest}>Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

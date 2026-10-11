@@ -10,6 +10,11 @@
 
 # production
 /build
+/.env
+/apps/*/.env
+/apps/*/vendor
+/apps/*/node_modules
+/apps/web/.next
 
 # misc
 .DS_Store

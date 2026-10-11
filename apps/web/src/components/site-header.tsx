@@ -1,61 +1,51 @@
-"use client";
-
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Menu, Moon, Sun, X } from "lucide-react";
-import { useEffect, useState } from "react";
 import { Brand } from "./brand";
-import { useLocale } from "./app-providers";
-import { getCurrentUser } from "@/lib/api";
-import type { User } from "@/lib/types";
+import { navItems } from "@/lib/content";
+import { getOptionalUser } from "@/lib/auth";
 
-export function SiteHeader() {
-  const pathname = usePathname();
-  const { locale, setLocale, t } = useLocale();
-  const [open, setOpen] = useState(false);
-  const [theme, setTheme] = useState<"light" | "dark">("light");
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    getCurrentUser().then(setUser).catch(() => setUser(null));
-    const onTheme = (event: Event) => setTheme((event as CustomEvent<"light" | "dark">).detail);
-    window.addEventListener("pitchpond-theme", onTheme);
-    return () => window.removeEventListener("pitchpond-theme", onTheme);
-  }, [pathname]);
-
-  const links = [
-    ["/explore", t("explore")],
-    ["/pricing", t("pricing")],
-    ["/about", t("about")],
-  ] as const;
-
+export async function SiteHeader() {
+  const user = await getOptionalUser();
   return (
     <header className="site-header">
       <div className="shell header-inner">
         <Brand />
-        <nav className={`main-nav ${open ? "is-open" : ""}`} aria-label="Primary navigation">
-          {links.map(([href, label]) => (
-            <Link key={href} href={href} className={pathname === href ? "active" : ""} onClick={() => setOpen(false)}>
-              {label}
+        <nav className="desktop-nav" aria-label="Main navigation">
+          {navItems.map((item) => (
+            <Link key={item.href} href={item.href}>
+              {item.label}
             </Link>
           ))}
         </nav>
         <div className="header-actions">
-          <button className="icon-button locale-button" onClick={() => setLocale(locale === "en" ? "fil" : "en")} aria-label={`Switch to ${t("language")}`}>
-            {locale === "en" ? "FIL" : "EN"}
-          </button>
-          <button className="icon-button" onClick={() => window.dispatchEvent(new Event("pitchpond-toggle-theme"))} aria-label="Toggle color theme">
-            {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-          </button>
-          {user ? (
-            <Link href="/dashboard" className="button button-secondary header-signin">{t("dashboard")}</Link>
-          ) : (
-            <Link href="/signin" className="button button-secondary header-signin">{t("signIn")}</Link>
-          )}
-          <Link href="/founder/campaigns/new" className="button button-primary header-cta">{t("startCampaign")}</Link>
-          <button className="menu-button" aria-expanded={open} aria-controls="main-navigation" onClick={() => setOpen(!open)}>
-            <span className="sr-only">Toggle navigation</span>{open ? <X /> : <Menu />}
-          </button>
+          <Link
+            className="text-link desktop-only"
+            href={user ? "/workspace" : "/sign-in"}
+          >
+            {user ? "Workspace" : "Sign in"}
+          </Link>
+          <Link
+            className="button button-primary button-small"
+            href={user ? "/workspace" : "/pilot"}
+          >
+            {user ? "Open workspace" : "Join the pilot"}
+          </Link>
+          <details className="mobile-menu">
+            <summary aria-label="Open navigation">
+              <span />
+              <span />
+              <span />
+            </summary>
+            <nav aria-label="Mobile navigation">
+              {navItems.map((item) => (
+                <Link key={item.href} href={item.href}>
+                  {item.label}
+                </Link>
+              ))}
+              <Link href={user ? "/workspace" : "/sign-in"}>
+                {user ? "Workspace" : "Sign in"}
+              </Link>
+            </nav>
+          </details>
         </div>
       </div>
     </header>

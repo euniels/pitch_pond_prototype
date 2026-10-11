@@ -1,12 +1,13 @@
-export function formatMoney(minor: number, locale = "en-PH"): string {
-  return new Intl.NumberFormat(locale, {
+export function formatPeso(value: number) {
+  return new Intl.NumberFormat("en-PH", {
     style: "currency",
     currency: "PHP",
-    maximumFractionDigits: minor % 100 === 0 ? 0 : 2,
-  }).format(minor / 100);
+    maximumFractionDigits: 0,
+  }).format(value);
 }
 
-export function formatDate(value: string | null, locale = "en-PH"): string {
-  if (!value) return "—";
-  return new Intl.DateTimeFormat(locale, { dateStyle: "medium" }).format(new Date(value));
+export function formatState(value: string) {
+  return value
+    .replaceAll("_", " ")
+    .replace(/\b\w/g, (character) => character.toUpperCase());
 }

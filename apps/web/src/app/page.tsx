@@ -1,16 +1,212 @@
-import { getCampaigns } from "@/lib/api";
-import type { Campaign } from "@/lib/types";
-import { HomeContent } from "@/components/home-content";
+import Link from "next/link";
+import {
+  ArrowRight,
+  BadgeCheck,
+  BrainCircuit,
+  Building2,
+  Eye,
+  FileCheck2,
+  Link2,
+  Network,
+  Route,
+  ShieldCheck,
+  Users,
+} from "lucide-react";
+import { ProductTour } from "@/components/product-tour";
+import { SectionHeading } from "@/components/section-heading";
+import { homeCopy, pilotTargets, readinessDimensions } from "@/lib/content";
 
-export const dynamic = "force-dynamic";
-
-export default async function HomePage() {
-  let campaigns: Campaign[] = [];
-  let apiAvailable = true;
-  try {
-    campaigns = (await getCampaigns("?featured=1&perPage=3")).data;
-  } catch {
-    apiAvailable = false;
-  }
-  return <HomeContent campaigns={campaigns} apiAvailable={apiAvailable} />;
+export default function Home() {
+  const copy = homeCopy;
+  const workflowIcons = {
+    route: Route,
+    evidence: FileCheck2,
+    network: Network,
+    ai: BrainCircuit,
+    people: Users,
+  };
+  return (
+    <main>
+      <section className="hero ocean-hero">
+        <div className="hero-rays" />
+        <div className="hero-ripples" />
+        <div className="shell hero-grid">
+          <div className="hero-copy">
+            <div className="eyebrow light">
+              <span className="pulse-dot" />
+              {copy.hero.eyebrow}
+            </div>
+            <h1>
+              {copy.hero.title}
+              <br />
+              <em>{copy.hero.titleAccent}</em>
+            </h1>
+            <p>{copy.hero.intro}</p>
+            <div className="hero-actions">
+              <Link className="button button-lime button-large" href="/pilot">
+                {copy.hero.primaryCta}
+                <ArrowRight />
+              </Link>
+              <Link className="button button-glass button-large" href="/demo">
+                {copy.hero.secondaryCta}
+              </Link>
+            </div>
+            <div className="hero-principles">
+              <span>
+                <ShieldCheck />
+                {copy.hero.principles[0]}
+              </span>
+              <span>
+                <Eye />
+                {copy.hero.principles[1]}
+              </span>
+              <span>
+                <BadgeCheck />
+                {copy.hero.principles[2]}
+              </span>
+            </div>
+          </div>
+          <div
+            className="hero-visual"
+            aria-label="PitchPond fundability workflow"
+          >
+            <div className="pond-orbit orbit-one" />
+            <div className="pond-orbit orbit-two" />
+            <div className="hero-core">
+              <Network />
+              <strong>
+                Fundability
+                <br />
+                Graph
+              </strong>
+              <small>claims · evidence · gaps · fit</small>
+            </div>
+            {[
+              ["Readiness", Route],
+              ["Evidence", FileCheck2],
+              ["Thesis", Users],
+              ["Matches", Link2],
+            ].map(([label, Icon], index) => (
+              <div
+                className={`orbit-label orbit-label-${index + 1}`}
+                key={String(label)}
+              >
+                {typeof Icon !== "string" && <Icon />}
+                <span>{String(label)}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="pilot-strip">
+        <div className="shell pilot-targets">
+          <div>
+            <span className="eyebrow">{copy.pilotStrip.eyebrow}</span>
+            <p>{copy.pilotStrip.body}</p>
+          </div>
+          {pilotTargets.map((item) => (
+            <div key={item.label}>
+              <strong>{item.value}</strong>
+              <span>{item.label}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+      <section className="section shell">
+        <SectionHeading
+          eyebrow={copy.workflow.eyebrow}
+          title={copy.workflow.title}
+          intro={copy.workflow.intro}
+          center
+        />
+        <div className="workflow-grid">
+          {copy.workflow.items.map(([icon, num, title, body]) => {
+            const Icon = workflowIcons[icon];
+            return (
+              <article key={title}>
+                <span>{num}</span>
+                <Icon />
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+      <section className="section section-dark">
+        <div className="shell">
+          <SectionHeading
+            eyebrow={copy.tour.eyebrow}
+            title={copy.tour.title}
+            intro={copy.tour.intro}
+          />
+          <ProductTour />
+        </div>
+      </section>
+      <section className="section shell readiness-section">
+        <div>
+          <SectionHeading
+            eyebrow={copy.readiness.eyebrow}
+            title={copy.readiness.title}
+            intro={copy.readiness.intro}
+          />
+          <Link className="text-cta" href="/founder-studio">
+            {copy.readiness.cta} <ArrowRight />
+          </Link>
+        </div>
+        <div className="dimension-list">
+          {readinessDimensions.map(([title, body], index) => (
+            <div key={title}>
+              <span>{index + 1}</span>
+              <div>
+                <strong>{title}</strong>
+                <p>{body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+      <section className="section ecosystem-section">
+        <div className="shell ecosystem-grid">
+          <div>
+            <span className="eyebrow">{copy.ecosystem.eyebrow}</span>
+            <h2>{copy.ecosystem.title}</h2>
+            <p>{copy.ecosystem.body}</p>
+            <Link className="button button-secondary" href="/institutions">
+              {copy.ecosystem.cta}
+              <ArrowRight />
+            </Link>
+          </div>
+          <div className="ecosystem-card">
+            <Building2 />
+            <h3>{copy.ecosystem.cardTitle}</h3>
+            <ul>
+              {copy.ecosystem.measures.map((measure) => (
+                <li key={measure}>{measure}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+      <section className="final-cta">
+        <div className="shell">
+          <span className="eyebrow light">{copy.finalCta.eyebrow}</span>
+          <h2>{copy.finalCta.title}</h2>
+          <p>{copy.finalCta.body}</p>
+          <div className="hero-actions">
+            <Link className="button button-lime button-large" href="/pilot">
+              {copy.finalCta.primary}
+              <ArrowRight />
+            </Link>
+            <Link
+              className="button button-glass button-large"
+              href="/how-it-works"
+            >
+              {copy.finalCta.secondary}
+            </Link>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
 }

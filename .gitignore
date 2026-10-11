@@ -15,6 +15,7 @@
 /apps/*/vendor
 /apps/*/node_modules
 /apps/web/.next
+/supabase/.temp/
 
 # misc
 .DS_Store

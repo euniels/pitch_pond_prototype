@@ -1,34 +1,65 @@
 import Link from "next/link";
 import { Brand } from "./brand";
 
+const groups = [
+  {
+    title: "Platform",
+    links: [
+      ["How it works", "/how-it-works"],
+      ["Founder Studio", "/founder-studio"],
+      ["Evidence Vault", "/evidence-vault"],
+      ["Explainable matching", "/matching"],
+    ],
+  },
+  {
+    title: "Pilot",
+    links: [
+      ["Institutions", "/institutions"],
+      ["Pricing", "/pricing"],
+      ["Apply", "/pilot"],
+      ["Sign in", "/sign-in"],
+    ],
+  },
+  {
+    title: "Trust",
+    links: [
+      ["Responsible AI", "/responsible-ai"],
+      ["Privacy", "/privacy"],
+      ["Terms", "/terms"],
+      ["Accessibility", "/accessibility"],
+    ],
+  },
+] as const;
+
 export function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="shell footer-grid">
-        <div className="footer-intro">
-          <Brand />
-          <p>Transparent donation and reward crowdfunding for Filipino communities and businesses.</p>
-          <span className="beta-pill">Closed beta · Philippines</span>
+        <div className="footer-brand">
+          <Brand inverse />
+          <p>
+            Evidence before claims. Fit before introductions. Human judgment
+            throughout.
+          </p>
+          <small>
+            PitchPond does not execute investments, hold funds, or provide
+            investment advice.
+          </small>
         </div>
-        <div>
-          <h3>Platform</h3>
-          <Link href="/explore">Explore campaigns</Link>
-          <Link href="/pricing">Plans and fees</Link>
-          <Link href="/about">How PitchPond works</Link>
-        </div>
-        <div>
-          <h3>Trust</h3>
-          <Link href="/legal#funding">Funding policy</Link>
-          <Link href="/legal#privacy">Privacy</Link>
-          <Link href="/legal#complaints">Complaints</Link>
-        </div>
-        <div>
-          <h3>Important</h3>
-          <p>PitchPond does not currently offer securities or equity investments. Campaign backing carries fulfilment risk.</p>
-        </div>
+        {groups.map((group) => (
+          <div key={group.title}>
+            <h2>{group.title}</h2>
+            {group.links.map(([label, href]) => (
+              <Link key={href} href={href}>
+                {label}
+              </Link>
+            ))}
+          </div>
+        ))}
       </div>
       <div className="shell footer-bottom">
-        <span>© 2026 PitchPond</span><span>Built for clear choices, not hype.</span>
+        <span>© 2026 PitchPond. Pilot-stage software.</span>
+        <span>Built for the Philippine early-stage ecosystem.</span>
       </div>
     </footer>
   );

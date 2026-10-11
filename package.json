@@ -1,13 +1,15 @@
 {
   "name": "pitchpond",
-  "version": "1.0.0-beta.1",
+  "version": "2.0.0-pilot.1",
   "private": true,
   "scripts": {
     "web:dev": "npm --prefix apps/web run dev",
     "web:build": "npm --prefix apps/web run build",
     "web:test": "npm --prefix apps/web run test",
     "web:lint": "npm --prefix apps/web run lint",
-    "api:test": "cd apps/api && php artisan test",
-    "test": "npm run web:test && npm run web:lint && npm run api:test"
+    "web:typecheck": "npm --prefix apps/web run typecheck",
+    "db:types": "npx supabase gen types typescript --linked > apps/web/src/lib/database.types.ts",
+    "db:test": "npx supabase test db",
+    "test": "npm run web:test && npm run web:lint && npm run web:typecheck && npm run web:build"
   }
 }

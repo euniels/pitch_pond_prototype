@@ -7,6 +7,7 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 import { ContentPage } from "@/components/content-page";
+import { FaqSection } from "@/components/faq-section";
 import { contentPages } from "@/lib/content";
 
 export const metadata = { title: "How it works" };
@@ -27,6 +28,8 @@ export default function Page() {
         ...item,
         icon: icons[index]!,
       }))}
-    />
+    >
+      <FaqSection />
+    </ContentPage>
   );
 }

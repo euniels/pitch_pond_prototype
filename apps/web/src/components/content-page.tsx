@@ -17,6 +17,7 @@ export function ContentPage({
   items,
   note,
   cta = "Apply for the pilot",
+  children,
 }: {
   eyebrow: string;
   title: string;
@@ -24,6 +25,7 @@ export function ContentPage({
   items: readonly ContentPageItem[];
   note: string;
   cta?: string;
+  children?: React.ReactNode;
 }) {
   return (
     <main>
@@ -70,6 +72,7 @@ export function ContentPage({
           )}
         </div>
         <TrustNote>{note}</TrustNote>
+        {children}
       </section>
     </main>
   );

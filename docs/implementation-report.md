@@ -49,7 +49,7 @@ Implemented routes:
 | `/institutions` | Cohort, review, introduction, and measurement proposition |
 | `/pricing` | Indicative pilot plans without checkout |
 | `/pilot` | Pilot eligibility and application form |
-| `/demo` | Interactive product tour and filterable six-venture sandbox with clearly synthetic data |
+| `/demo` | Interactive product tour and filterable eight-venture sandbox with clearly synthetic data |
 | `/responsible-ai` | AI purpose, consent, logging, limitations, and human-control statement |
 | `/privacy` | Pilot privacy notice and data-control explanation |
 | `/terms` | Pilot terms and explicit non-investment boundary |
@@ -60,7 +60,9 @@ The pricing presentation includes Free Founder, indicative Founder Pro at PHP 49
 
 All principal public copy is centralized in `apps/web/src/lib/content.ts` for future localization. The initial release is English-complete, uses `en-PH`, emphasizes CALABARZON, and permits nationwide Philippine regions.
 
-The homepage and `/demo` now include a clearly labeled sample-data environment representing six fictional Philippine businesses across climate tech, circular economy, health, education, agriculture, and enterprise software. It demonstrates search, sector and region filtering, readiness percentages, evidence counts, funding needs, milestones, gaps, impact goals, and factor-level compatibility explanations without implying real traction or investment outcomes. The records live in `apps/web/src/lib/sample-ventures.ts`, remain separate from Supabase data, and cannot enter authenticated workflows.
+The homepage and `/demo` now include a clearly labeled sample-data environment representing eight fictional Philippine businesses across climate tech, circular economy, health, education, agriculture, and enterprise software. It supports combined search, sector, region, stage, and readiness filters; four sort modes; session-only saved records; three-venture comparison; and a Blind First Look control that redacts identity cues consistently. Each synthetic detail view has dedicated Overview, Readiness, Evidence, and Milestones tabs with deterministic factor points, nine readiness workflow states, fictional document metadata, business-model context, funding needs, gaps, and impact goals. The records live in `apps/web/src/lib/sample-ventures.ts`, remain separate from Supabase data, and cannot enter authenticated workflows.
+
+The How It Works page includes an accessible native disclosure FAQ covering product boundaries, readiness, matching, Blind First Look, evidence, and AI. This carries forward the useful question-and-answer interaction of the legacy prototype without restoring its retired transactional concepts.
 
 An accessible header toggle provides light and dark themes. The selection persists only in local browser storage, honors the operating-system preference for first-time visitors, is applied before first paint under the nonce-based Content Security Policy, and is covered by desktop/mobile persistence and axe checks. Responsive rules include wide-screen, tablet, phone, narrow-phone, landscape, coarse-pointer, reduced-motion, and increased-contrast behavior.
 
@@ -192,14 +194,14 @@ Completed locally on the release source:
 
 | Check | Result |
 | --- | --- |
-| Vitest unit suites | 10 files, 39 tests passed |
+| Vitest unit suites | 11 files, 42 tests passed |
 | ESLint | Passed |
 | TypeScript `tsc --noEmit` | Passed |
 | Next.js production build | Passed |
-| Playwright | 10 tests passed across desktop/mobile projects |
+| Playwright | 16 tests passed across desktop/mobile projects |
 | Responsive overflow | Passed at 320, 375, 768, 1024, and 1440 px |
 | Keyboard and automated accessibility | No serious or critical Axe findings |
-| Lighthouse | Performance 0.95, Accessibility 1.00, Best Practices 0.96, SEO 1.00 |
+| Lighthouse homepage production build | Performance 0.93, Accessibility 1.00, Best Practices 0.96, SEO 1.00 |
 | Production dependency audit | 0 known vulnerabilities at high threshold |
 | Browser bundle secret scan | No server credential names/values found |
 | Staged-diff secret scan | Clear |

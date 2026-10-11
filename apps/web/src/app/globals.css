@@ -760,8 +760,9 @@ h3 {
 }
 .tour-toolbar small {
   margin-left: auto;
-  color: #688078;
+  color: #435b55;
   font-size: 0.64rem;
+  font-weight: 650;
 }
 .tour-panel {
   padding: 30px;

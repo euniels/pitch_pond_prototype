@@ -24,15 +24,18 @@ test("public value proposition is complete and contains no crowdfunding language
 test("public pages have no serious accessibility violations", async ({
   page,
 }) => {
-  await page.goto("/how-it-works");
-  const results = await new AxeBuilder({ page })
-    .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
-    .analyze();
-  expect(
-    results.violations.filter((item) =>
-      ["serious", "critical"].includes(item.impact ?? ""),
-    ),
-  ).toEqual([]);
+  for (const route of ["/how-it-works", "/demo"]) {
+    await page.goto(route);
+    const results = await new AxeBuilder({ page })
+      .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+      .analyze();
+    expect(
+      results.violations.filter((item) =>
+        ["serious", "critical"].includes(item.impact ?? ""),
+      ),
+      `${route} has serious accessibility violations`,
+    ).toEqual([]);
+  }
 });
 
 test("synthetic tour supports all three perspectives", async ({ page }) => {
@@ -52,18 +55,52 @@ test("synthetic venture sandbox can be searched, filtered, and inspected", async
   ).toBeVisible();
 
   await page.getByLabel("Search samples").fill("TanimSense");
-  await expect(page.getByRole("button", { name: /TanimSense/ })).toBeVisible();
+  await expect(
+    page.locator(".venture-card-open").filter({ hasText: "TanimSense" }),
+  ).toBeVisible();
   await expect(page.getByRole("button", { name: /HabiWorks Collective/ })).toHaveCount(0);
 
   await page.getByRole("button", { name: "Reset" }).click();
   await page.getByLabel("Region").selectOption("Central Luzon");
-  const habiWorks = page.getByRole("button", { name: /HabiWorks Collective/ });
+  const habiWorks = page
+    .locator(".venture-card-open")
+    .filter({ hasText: "HabiWorks Collective" });
   await expect(habiWorks).toBeVisible();
   await habiWorks.click();
   await expect(
     page.locator("#sample-venture-detail").getByRole("heading", {
       name: "HabiWorks Collective",
     }),
+  ).toBeVisible();
+
+  await page.getByRole("tab", { name: "Evidence" }).click();
+  await expect(page.getByText("Buyer willingness-to-pay study")).toBeVisible();
+  await page.getByRole("button", { name: "Save HabiWorks Collective" }).click();
+  await expect(
+    page.getByRole("button", { name: "Remove HabiWorks Collective" }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Compare HabiWorks Collective" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Compare synthetic ventures" }),
+  ).toBeVisible();
+
+  await page.getByRole("switch", { name: /Blind First Look/ }).click();
+  await expect(
+    page.locator("#sample-venture-detail").getByRole("heading", {
+      name: "Venture 06",
+    }),
+  ).toBeVisible();
+  await expect(page.locator("#sample-venture-detail")).not.toContainText(
+    "HabiWorks Collective",
+  );
+});
+
+test("how-it-works guidance expands without leaving the page", async ({ page }) => {
+  await page.goto("/how-it-works");
+  const question = page.getByText("How does explainable matching work?");
+  await question.click();
+  await expect(
+    page.getByText(/versioned 100-point rubric compares sector/i),
   ).toBeVisible();
 });
 

@@ -10,6 +10,9 @@ export type SampleVenture = {
   readiness: number;
   evidenceCount: number;
   matchScore: number;
+  team: string;
+  founded: string;
+  businessModel: string;
   traction: string;
   fundingNeed: string;
   impactGoals: readonly string[];
@@ -17,7 +20,35 @@ export type SampleVenture = {
   tone: "aqua" | "lime" | "blue" | "violet" | "amber" | "coral";
   milestones: readonly { label: string; status: "verified" | "active" | "planned" }[];
   matchReasons: readonly string[];
+  matchPoints: readonly [number, number, number, number, number, number, number];
+  evidenceHighlights: readonly {
+    title: string;
+    kind: string;
+    status: "Reviewed" | "Evidence linked" | "In progress";
+  }[];
 };
+
+export const sampleMatchFactors = [
+  ["Sector", 20],
+  ["Stage", 20],
+  ["Ticket overlap", 20],
+  ["Traction", 15],
+  ["Geography", 10],
+  ["Impact", 10],
+  ["Risk tolerance", 5],
+] as const;
+
+export const sampleReadinessDimensions = [
+  "Problem",
+  "Market",
+  "Solution",
+  "Traction",
+  "Team",
+  "Business model",
+  "Use of funds",
+  "Financial readiness",
+  "Legal / business readiness",
+] as const;
 
 export const sampleVentures: readonly SampleVenture[] = [
   {
@@ -32,6 +63,9 @@ export const sampleVentures: readonly SampleVenture[] = [
     readiness: 85,
     evidenceCount: 22,
     matchScore: 88,
+    team: "4 full-time · engineering and cooperative operations",
+    founded: "2024",
+    businessModel: "Monthly storage subscription plus per-crate handling",
     traction: "3 cooperative pilots · 2 paid renewals",
     fundingNeed: "₱1.5M–₱3M",
     impactGoals: ["SDG 8", "SDG 9"],
@@ -43,6 +77,12 @@ export const sampleVentures: readonly SampleVenture[] = [
       { label: "Batangas expansion", status: "planned" },
     ],
     matchReasons: ["Sector fit", "Ticket overlap", "CALABARZON focus"],
+    matchPoints: [20, 18, 18, 13, 10, 5, 4],
+    evidenceHighlights: [
+      { title: "Cooperative renewal ledger", kind: "XLSX", status: "Reviewed" },
+      { title: "Solar efficiency field report", kind: "PDF", status: "Evidence linked" },
+      { title: "Twelve-month cash model", kind: "XLSX", status: "In progress" },
+    ],
   },
   {
     id: "luntian-loop",
@@ -56,6 +96,9 @@ export const sampleVentures: readonly SampleVenture[] = [
     readiness: 74,
     evidenceCount: 17,
     matchScore: 81,
+    team: "5 full-time · materials, production, and community sourcing",
+    founded: "2023",
+    businessModel: "Panel sales to contractors with municipal supply agreements",
     traction: "2 LGU collection partners · lab validation complete",
     fundingNeed: "₱2M–₱4M",
     impactGoals: ["SDG 9", "SDG 11", "SDG 12"],
@@ -67,6 +110,12 @@ export const sampleVentures: readonly SampleVenture[] = [
       { label: "Pilot production run", status: "active" },
     ],
     matchReasons: ["Impact alignment", "Stage fit", "Geography fit"],
+    matchPoints: [20, 16, 17, 11, 10, 4, 3],
+    evidenceHighlights: [
+      { title: "Material strength certification", kind: "PDF", status: "Reviewed" },
+      { title: "LGU collection agreement", kind: "PDF", status: "Reviewed" },
+      { title: "Pilot unit-economics workbook", kind: "XLSX", status: "In progress" },
+    ],
   },
   {
     id: "lakbay-health",
@@ -80,6 +129,9 @@ export const sampleVentures: readonly SampleVenture[] = [
     readiness: 67,
     evidenceCount: 13,
     matchScore: 76,
+    team: "3 full-time · health operations and logistics software",
+    founded: "2025",
+    businessModel: "Clinic subscription with route-based service fees",
     traction: "5 clinic interviews · supervised route simulation",
     fundingNeed: "₱800K–₱1.8M",
     impactGoals: ["SDG 3", "SDG 10"],
@@ -91,6 +143,12 @@ export const sampleVentures: readonly SampleVenture[] = [
       { label: "Supervised live pilot", status: "planned" },
     ],
     matchReasons: ["Problem evidence", "Impact fit", "Mentor expertise"],
+    matchPoints: [18, 15, 15, 11, 10, 4, 3],
+    evidenceHighlights: [
+      { title: "Clinic interview synthesis", kind: "PDF", status: "Reviewed" },
+      { title: "Supervised route simulation", kind: "CSV", status: "Evidence linked" },
+      { title: "Health-data governance review", kind: "DOCX", status: "In progress" },
+    ],
   },
   {
     id: "aralbay-skills",
@@ -104,6 +162,9 @@ export const sampleVentures: readonly SampleVenture[] = [
     readiness: 79,
     evidenceCount: 19,
     matchScore: 84,
+    team: "6 full-time · learning design, employer success, and platform",
+    founded: "2023",
+    businessModel: "Employer-sponsored cohorts and learner subscriptions",
     traction: "146 learners · 4 employer partners · 61% completion",
     fundingNeed: "₱1M–₱2.5M",
     impactGoals: ["SDG 4", "SDG 8", "SDG 10"],
@@ -115,6 +176,12 @@ export const sampleVentures: readonly SampleVenture[] = [
       { label: "Credential partnership", status: "planned" },
     ],
     matchReasons: ["Revenue signal", "Stage fit", "Inclusive growth"],
+    matchPoints: [20, 18, 16, 12, 10, 5, 3],
+    evidenceHighlights: [
+      { title: "Employer partner contracts", kind: "PDF", status: "Reviewed" },
+      { title: "Cohort outcomes dataset", kind: "CSV", status: "Evidence linked" },
+      { title: "Acquisition-cost analysis", kind: "XLSX", status: "In progress" },
+    ],
   },
   {
     id: "tanimsense",
@@ -128,6 +195,9 @@ export const sampleVentures: readonly SampleVenture[] = [
     readiness: 72,
     evidenceCount: 15,
     matchScore: 79,
+    team: "4 full-time · agronomy, hardware, and field implementation",
+    founded: "2024",
+    businessModel: "Sensor-kit lease with seasonal monitoring subscription",
     traction: "8 test plots · 18% water-use reduction signal",
     fundingNeed: "₱1.2M–₱2M",
     impactGoals: ["SDG 2", "SDG 9", "SDG 13"],
@@ -139,6 +209,12 @@ export const sampleVentures: readonly SampleVenture[] = [
       { label: "Full-season validation", status: "planned" },
     ],
     matchReasons: ["Agriculture thesis", "Ticket overlap", "Climate impact"],
+    matchPoints: [20, 16, 15, 11, 10, 4, 3],
+    evidenceHighlights: [
+      { title: "Eight-plot field dataset", kind: "CSV", status: "Reviewed" },
+      { title: "Farmer usability study", kind: "PDF", status: "Evidence linked" },
+      { title: "Full-season durability protocol", kind: "DOCX", status: "In progress" },
+    ],
   },
   {
     id: "habiworks",
@@ -152,6 +228,9 @@ export const sampleVentures: readonly SampleVenture[] = [
     readiness: 61,
     evidenceCount: 10,
     matchScore: 69,
+    team: "3 full-time · product, cooperative operations, and sales",
+    founded: "2025",
+    businessModel: "Group subscription with order-processing fees",
     traction: "24 artisan interviews · 3 workflow trials",
     fundingNeed: "₱600K–₱1.2M",
     impactGoals: ["SDG 5", "SDG 8", "SDG 10"],
@@ -163,5 +242,77 @@ export const sampleVentures: readonly SampleVenture[] = [
       { label: "Paid design partner", status: "planned" },
     ],
     matchReasons: ["Mentorship fit", "Impact alignment", "Risk tolerance"],
+    matchPoints: [17, 14, 13, 9, 7, 6, 3],
+    evidenceHighlights: [
+      { title: "Artisan discovery interviews", kind: "PDF", status: "Reviewed" },
+      { title: "Workflow trial observations", kind: "CSV", status: "Evidence linked" },
+      { title: "Buyer willingness-to-pay study", kind: "DOCX", status: "In progress" },
+    ],
+  },
+  {
+    id: "islagrid-energy",
+    name: "IslaGrid Energy",
+    monogram: "IE",
+    tagline: "Shared solar monitoring for island tourism and fishing communities.",
+    sector: "Climate technology",
+    stage: "Prototype",
+    region: "Western Visayas",
+    city: "Iloilo City",
+    readiness: 64,
+    evidenceCount: 11,
+    matchScore: 73,
+    team: "4 full-time · energy systems, community operations, and software",
+    founded: "2025",
+    businessModel: "Monitoring subscription for community microgrid operators",
+    traction: "2 technical demonstrations · 1 cooperative design partner",
+    fundingNeed: "₱1.8M–₱3.5M",
+    impactGoals: ["SDG 7", "SDG 9", "SDG 13"],
+    topGap: "Document procurement assumptions and the maintenance responsibility model.",
+    tone: "blue",
+    milestones: [
+      { label: "Bench prototype validated", status: "verified" },
+      { label: "Cooperative site assessment", status: "active" },
+      { label: "Island field demonstration", status: "planned" },
+    ],
+    matchReasons: ["Climate thesis", "Impact alignment", "Mentor expertise"],
+    matchPoints: [20, 14, 13, 9, 7, 7, 3],
+    evidenceHighlights: [
+      { title: "Prototype test results", kind: "PDF", status: "Reviewed" },
+      { title: "Site energy assessment", kind: "XLSX", status: "Evidence linked" },
+      { title: "Maintenance responsibility map", kind: "DOCX", status: "In progress" },
+    ],
+  },
+  {
+    id: "bukidlink-market",
+    name: "BukidLink Market",
+    monogram: "BM",
+    tagline: "Demand planning and pooled logistics for upland vegetable growers.",
+    sector: "Agriculture",
+    stage: "Early revenue",
+    region: "Northern Mindanao",
+    city: "Malaybalay, Bukidnon",
+    readiness: 77,
+    evidenceCount: 18,
+    matchScore: 82,
+    team: "5 full-time · farmer relations, logistics, product, and finance",
+    founded: "2023",
+    businessModel: "Transaction fee plus logistics coordination subscription",
+    traction: "63 active growers · 11 recurring restaurant buyers",
+    fundingNeed: "₱2M–₱4M",
+    impactGoals: ["SDG 2", "SDG 8", "SDG 12"],
+    topGap: "Reconcile delivered-order margins with spoilage and route-level costs.",
+    tone: "lime",
+    milestones: [
+      { label: "First pooled delivery route", status: "verified" },
+      { label: "Restaurant reorder benchmark", status: "verified" },
+      { label: "Route margin reconciliation", status: "active" },
+    ],
+    matchReasons: ["Revenue signal", "Ticket overlap", "Food-system impact"],
+    matchPoints: [20, 18, 16, 12, 7, 6, 3],
+    evidenceHighlights: [
+      { title: "Grower activity ledger", kind: "CSV", status: "Reviewed" },
+      { title: "Buyer reorder analysis", kind: "XLSX", status: "Reviewed" },
+      { title: "Route margin reconciliation", kind: "XLSX", status: "In progress" },
+    ],
   },
 ] as const;

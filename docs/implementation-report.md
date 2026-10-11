@@ -49,7 +49,7 @@ Implemented routes:
 | `/institutions` | Cohort, review, introduction, and measurement proposition |
 | `/pricing` | Indicative pilot plans without checkout |
 | `/pilot` | Pilot eligibility and application form |
-| `/demo` | Interactive product tour with clearly synthetic data |
+| `/demo` | Interactive product tour and filterable six-venture sandbox with clearly synthetic data |
 | `/responsible-ai` | AI purpose, consent, logging, limitations, and human-control statement |
 | `/privacy` | Pilot privacy notice and data-control explanation |
 | `/terms` | Pilot terms and explicit non-investment boundary |
@@ -59,6 +59,10 @@ Implemented routes:
 The pricing presentation includes Free Founder, indicative Founder Pro at PHP 499–999/month, Pitch Readiness Sprint, indicative Institutional Pilot at PHP 25,000–75,000, and free invited investor/mentor access. There is no checkout. Public proof points are explicitly labeled pilot objectives: 15–20 founders, 3–5 qualified introductions, one institutional partner, and no paid influence on scoring.
 
 All principal public copy is centralized in `apps/web/src/lib/content.ts` for future localization. The initial release is English-complete, uses `en-PH`, emphasizes CALABARZON, and permits nationwide Philippine regions.
+
+The homepage and `/demo` now include a clearly labeled sample-data environment representing six fictional Philippine businesses across climate tech, circular economy, health, education, agriculture, and enterprise software. It demonstrates search, sector and region filtering, readiness percentages, evidence counts, funding needs, milestones, gaps, impact goals, and factor-level compatibility explanations without implying real traction or investment outcomes. The records live in `apps/web/src/lib/sample-ventures.ts`, remain separate from Supabase data, and cannot enter authenticated workflows.
+
+An accessible header toggle provides light and dark themes. The selection persists only in local browser storage, honors the operating-system preference for first-time visitors, is applied before first paint under the nonce-based Content Security Policy, and is covered by desktop/mobile persistence and axe checks. Responsive rules include wide-screen, tablet, phone, narrow-phone, landscape, coarse-pointer, reduced-motion, and increased-contrast behavior.
 
 ### Authentication and memberships
 

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { ArrowRight, Info } from "lucide-react";
 import { ProductTour } from "@/components/product-tour";
+import { SectionHeading } from "@/components/section-heading";
+import { VentureSandbox } from "@/components/venture-sandbox";
 export const metadata = {
   title: "Product tour",
   robots: { index: false, follow: false },
@@ -28,6 +30,14 @@ export default function Page() {
           </p>
         </div>
         <ProductTour full />
+        <div className="demo-sandbox-section" id="venture-sandbox">
+          <SectionHeading
+            eyebrow="Synthetic venture sandbox"
+            title="Inspect a realistic, privacy-safe pilot pipeline."
+            intro="Search and filter sample businesses, compare readiness and evidence coverage, then inspect the reasons behind each fictional compatibility result."
+          />
+          <VentureSandbox />
+        </div>
         <div className="center-actions">
           <Link className="button button-primary button-large" href="/pilot">
             Apply for the pilot

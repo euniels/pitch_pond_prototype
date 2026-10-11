@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Brand } from "./brand";
 import { navItems } from "@/lib/content";
 import { getOptionalUser } from "@/lib/auth";
+import { ThemeToggle } from "./theme-toggle";
 
 export async function SiteHeader() {
   const user = await getOptionalUser();
@@ -17,6 +18,7 @@ export async function SiteHeader() {
           ))}
         </nav>
         <div className="header-actions">
+          <ThemeToggle />
           <Link
             className="text-link desktop-only"
             href={user ? "/workspace" : "/sign-in"}

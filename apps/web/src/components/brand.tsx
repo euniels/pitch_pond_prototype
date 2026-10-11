@@ -76,15 +76,18 @@ export function Brand({
       {compact ? (
         <BrandMarkImage className="brand-mark-image" priority />
       ) : (
-        <Image
-          className="brand-lockup"
-          src="/brand/pitchpond-logo-lockup.png"
-          width={2172}
-          height={724}
-          alt=""
-          sizes="(max-width: 560px) 142px, 174px"
-          priority
-        />
+        <>
+          <Image
+            className="brand-lockup"
+            src="/brand/pitchpond-logo-lockup.png"
+            width={2172}
+            height={724}
+            alt=""
+            sizes="174px"
+            priority
+          />
+          <BrandMarkImage className="brand-mobile-mark" priority />
+        </>
       )}
     </Link>
   );

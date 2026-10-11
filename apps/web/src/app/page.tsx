@@ -15,6 +15,7 @@ import {
 import { ProductTour } from "@/components/product-tour";
 import { SectionHeading } from "@/components/section-heading";
 import { BrandMarkImage } from "@/components/brand";
+import { VentureSandbox } from "@/components/venture-sandbox";
 import { homeCopy, pilotTargets, readinessDimensions } from "@/lib/content";
 
 export default function Home() {
@@ -151,6 +152,16 @@ export default function Home() {
             intro={copy.tour.intro}
           />
           <ProductTour />
+        </div>
+      </section>
+      <section className="section sample-showcase-section">
+        <div className="shell">
+          <SectionHeading
+            eyebrow="Synthetic pilot sandbox"
+            title="A credible venture pipeline—before any live data enters the pond."
+            intro="Explore fictional Philippine businesses built to demonstrate evidence coverage, readiness gaps, milestone history, and explainable investor fit."
+          />
+          <VentureSandbox preview />
         </div>
       </section>
       <section className="section shell readiness-section">

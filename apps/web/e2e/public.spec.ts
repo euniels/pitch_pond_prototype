@@ -43,6 +43,52 @@ test("synthetic tour supports all three perspectives", async ({ page }) => {
   await expect(page.getByText("Institution workspace")).toBeVisible();
 });
 
+test("synthetic venture sandbox can be searched, filtered, and inspected", async ({
+  page,
+}) => {
+  await page.goto("/demo#venture-sandbox");
+  await expect(
+    page.getByRole("heading", { name: "Inspect a realistic, privacy-safe pilot pipeline." }),
+  ).toBeVisible();
+
+  await page.getByLabel("Search samples").fill("TanimSense");
+  await expect(page.getByRole("button", { name: /TanimSense/ })).toBeVisible();
+  await expect(page.getByRole("button", { name: /HabiWorks Collective/ })).toHaveCount(0);
+
+  await page.getByRole("button", { name: "Reset" }).click();
+  await page.getByLabel("Region").selectOption("Central Luzon");
+  const habiWorks = page.getByRole("button", { name: /HabiWorks Collective/ });
+  await expect(habiWorks).toBeVisible();
+  await habiWorks.click();
+  await expect(
+    page.locator("#sample-venture-detail").getByRole("heading", {
+      name: "HabiWorks Collective",
+    }),
+  ).toBeVisible();
+});
+
+test("theme choice persists and dark mode remains accessible", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.goto("/");
+  const toggle = page.getByRole("button", { name: "Use dark mode" });
+  await toggle.click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect(
+    page.getByRole("button", { name: "Use light mode" }),
+  ).toBeVisible();
+
+  await page.reload();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  const results = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+    .analyze();
+  expect(
+    results.violations.filter((item) =>
+      ["serious", "critical"].includes(item.impact ?? ""),
+    ),
+  ).toEqual([]);
+});
+
 test("key public routes do not overflow at release breakpoints", async ({
   page,
 }) => {

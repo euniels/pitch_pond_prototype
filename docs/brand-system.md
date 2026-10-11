@@ -55,6 +55,8 @@ Pink is reserved for the lotus and rare brand details. Cyan and green communicat
 - Keep information hierarchy calmer than the presentation slides: fewer simultaneous glows, more negative space, and readable product controls.
 - Light sections may be used for dense forms, policies, and detailed data, but should retain aqua rules, soft pond gradients, and rounded surfaces.
 
+The interface also has a complete dark presentation. The header control switches between light and dark modes, saves the choice locally as `pitchpond-theme`, and applies the saved or operating-system preference before the first paint. Dark mode uses deep-ocean surfaces rather than pure black, preserves the lime/aqua hierarchy, and never changes product data or access permissions.
+
 ## Typography
 
 The product uses Sora for display text and Manrope for body/interface text. Headings are bold, compact, and slightly tightened. Eyebrows are uppercase with wide tracking. Body copy should remain comfortably readable and never inherit the compressed scale of presentation-slide annotations.
@@ -77,4 +79,5 @@ All motion is transform/opacity based where practical and is removed under `pref
 - Do not place required information only inside a raster image.
 - Use responsive Next.js image optimization for raster brand assets.
 - Validate 320, 375, 768, 1024, and 1440 pixel widths.
+- At 720 pixels and below, replace the horizontal lockup with the standalone PitchPond mark so the theme, pilot, and menu controls retain comfortable touch targets.
 - Keep Lighthouse performance at or above the project budget while maintaining 1.00 accessibility where reproducible.

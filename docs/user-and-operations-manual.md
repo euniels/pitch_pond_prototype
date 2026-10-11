@@ -32,6 +32,12 @@ Institution managers and platform administrators must open **Account security**,
 
 Use **Sign out** in the workspace. On a shared device, also close the browser. Never share a magic link, invitation token, TOTP seed, recovery code, or signed evidence URL.
 
+### Explore sample ventures and change appearance
+
+The public `/demo` page contains six fictional venture records for training and product walkthroughs. Search by name, sector, or city; filter by sector or region; then select a card to inspect its sample readiness, evidence coverage, funding need, milestone trail, readiness gap, impact goals, and explainable match factors. Select **Reset** to restore the complete sample set. None of these records is a real applicant, customer, investment result, or production database record.
+
+Use the sun/moon control in the site header to switch between light and dark mode. The choice is saved in the current browser and remains after reloading or navigating to another page. A first-time visitor inherits the device theme preference. This preference changes presentation only; it does not affect scores, data, memberships, visibility, or permissions.
+
 ## 3. Founder manual
 
 ### Create the venture profile

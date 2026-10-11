@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { ProductTour } from "@/components/product-tour";
 import { SectionHeading } from "@/components/section-heading";
+import { BrandMarkImage } from "@/components/brand";
 import { homeCopy, pilotTargets, readinessDimensions } from "@/lib/content";
 
 export default function Home() {
@@ -30,6 +31,8 @@ export default function Home() {
       <section className="hero ocean-hero">
         <div className="hero-rays" />
         <div className="hero-ripples" />
+        <div className="hero-bubbles" aria-hidden="true" />
+        <div className="hero-skyline" aria-hidden="true" />
         <div className="shell hero-grid">
           <div className="hero-copy">
             <div className="eyebrow light">
@@ -70,10 +73,11 @@ export default function Home() {
             className="hero-visual"
             aria-label="PitchPond fundability workflow"
           >
+            <div className="hero-visual-glow" aria-hidden="true" />
             <div className="pond-orbit orbit-one" />
             <div className="pond-orbit orbit-two" />
             <div className="hero-core">
-              <Network />
+              <BrandMarkImage className="hero-brand-symbol" priority />
               <strong>
                 Fundability
                 <br />
@@ -95,6 +99,12 @@ export default function Home() {
                 <span>{String(label)}</span>
               </div>
             ))}
+            <div className="hero-mantra" aria-hidden="true">
+              <span>Ideas</span>
+              <span>People</span>
+              <span>Capital</span>
+              <strong>A brighter Philippines</strong>
+            </div>
           </div>
         </div>
       </section>
@@ -112,7 +122,7 @@ export default function Home() {
           ))}
         </div>
       </section>
-      <section className="section shell">
+      <section className="section shell feature-section">
         <SectionHeading
           eyebrow={copy.workflow.eyebrow}
           title={copy.workflow.title}

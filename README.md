@@ -48,3 +48,4 @@ Legal, privacy, accessibility, and Responsible AI pages are honest pilot-stage d
 
 - [Implementation report](docs/implementation-report.md) — delivered scope, architecture, validation evidence, requirement coverage, and current release gates.
 - [User and operations manual](docs/user-and-operations-manual.md) — role-by-role usage, deployment, acceptance, security operations, incident response, troubleshooting, and rollback.
+- [Digital brand system](docs/brand-system.md) — deck-derived logo, palette, composition, typography, motion, and accessibility rules.

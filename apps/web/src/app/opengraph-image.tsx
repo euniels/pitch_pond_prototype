@@ -21,16 +21,28 @@ export default function Image() {
           fontFamily: "sans-serif",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            fontSize: 28,
-            color: "#59e5c8",
-            letterSpacing: ".14em",
-            textTransform: "uppercase",
-          }}
-        >
-          PitchPond
+        <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+          <div
+            style={{
+              display: "flex",
+              width: 74,
+              height: 74,
+              alignItems: "center",
+              justifyContent: "center",
+              color: "#031522",
+              background: "linear-gradient(145deg, #44e9ed, #dfff62)",
+              border: "2px solid rgba(255,255,255,.55)",
+              borderRadius: 37,
+              boxShadow: "0 0 34px rgba(53,242,223,.35)",
+              fontSize: 46,
+              fontWeight: 900,
+            }}
+          >
+            P
+          </div>
+          <div style={{ display: "flex", fontSize: 34, fontWeight: 800 }}>
+            Pitch<span style={{ color: "#72ed9a" }}>Pond</span>
+          </div>
         </div>
         <div
           style={{

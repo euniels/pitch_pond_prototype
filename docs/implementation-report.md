@@ -1,9 +1,13 @@
 # PitchPond pilot-ready implementation report
 
-**Release branch:** `feat/fundability-pilot`  
-**Application commit:** `3b2c5dd`  
-**Legacy preservation branch:** `backup/pre-fundability-rebuild-20261011` at `ea889f9`  
-**Report date:** 11 October 2026  
+**Release branch:** `feat/fundability-pilot`
+
+**Application commit:** `3b2c5dd`
+
+**Legacy preservation branch:** `backup/pre-fundability-rebuild-20261011` at `ea889f9`
+
+**Report date:** 11 October 2026
+
 **Intended production URL:** `https://pitchpondprototype.vercel.app`
 
 ## Executive status
@@ -231,4 +235,3 @@ To finish deployment without changing the requested URL, an owner of `pitchpondp
 2. sign the Vercel CLI on this workstation into the owning account/team.
 
 Repository push access must also be granted to `gershancg-web` for `euniels/pitch_pond_prototype`, or an owner must push the release branch. Once access exists, follow `docs/user-and-operations-manual.md`, complete every staging gate, and promote the exact validated deployment. Do not create a substitute project, retarget the live alias, or enable AI/uploads before their dependencies pass.
-

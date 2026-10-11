@@ -396,4 +396,3 @@ Revoke/rotate it at the provider, update only the affected Vercel environment, r
 ## 12. Support handoff template
 
 When reporting a problem, include environment, route, role, timestamp with timezone, visible error/event ID, expected behavior, actual behavior, and reproducible steps. Do not include passwords, magic links, invitation tokens, TOTP data, service keys, signed URLs, raw evidence, or raw AI prompts.
-

@@ -43,3 +43,8 @@ Use the existing Vercel project and set its Root Directory to `apps/web`. Config
 Production evidence uploads intentionally fail closed unless both attachment-scanner variables are configured. Feature flags for AI and uploads are seeded disabled and should be enabled only after provider acceptance testing.
 
 Legal, privacy, accessibility, and Responsible AI pages are honest pilot-stage documentation and require Philippine counsel and privacy-officer approval before external onboarding.
+
+## Release documentation
+
+- [Implementation report](docs/implementation-report.md) — delivered scope, architecture, validation evidence, requirement coverage, and current release gates.
+- [User and operations manual](docs/user-and-operations-manual.md) — role-by-role usage, deployment, acceptance, security operations, incident response, troubleshooting, and rollback.

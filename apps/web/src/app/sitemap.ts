@@ -5,6 +5,7 @@ const routes = [
   "/founder-studio",
   "/evidence-vault",
   "/matching",
+  "/intelligence",
   "/institutions",
   "/pricing",
   "/pilot",
@@ -18,7 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://pitchpondprototype.vercel.app";
   return routes.map((route) => ({
     url: `${base}${route}`,
-    lastModified: new Date("2026-10-11"),
+    lastModified: new Date("2026-10-18"),
     changeFrequency: route ? "monthly" : "weekly",
     priority: route ? 0.7 : 1,
   }));

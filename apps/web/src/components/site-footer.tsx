@@ -9,6 +9,7 @@ const groups = [
       ["Founder Studio", "/founder-studio"],
       ["Evidence Vault", "/evidence-vault"],
       ["Explainable matching", "/matching"],
+      ["Venture intelligence", "/intelligence"],
     ],
   },
   {
@@ -47,7 +48,7 @@ export function SiteFooter() {
           </small>
         </div>
         {groups.map((group) => (
-          <div key={group.title}>
+          <div className="footer-link-group" key={group.title}>
             <h2>{group.title}</h2>
             {group.links.map(([label, href]) => (
               <Link key={href} href={href}>

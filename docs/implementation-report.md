@@ -46,6 +46,7 @@ Implemented routes:
 | `/founder-studio` | Founder value proposition and nine-dimension workflow |
 | `/evidence-vault` | Private evidence lifecycle and permission model |
 | `/matching` | Deterministic matching and Blind First Look explanation |
+| `/intelligence` | Interactive assumption-based progress projections and future entrepreneurship pathways |
 | `/institutions` | Cohort, review, introduction, and measurement proposition |
 | `/pricing` | Indicative pilot plans without checkout |
 | `/pilot` | Pilot eligibility and application form |
@@ -63,6 +64,19 @@ All principal public copy is centralized in `apps/web/src/lib/content.ts` for fu
 The homepage and `/demo` now include a clearly labeled sample-data environment representing eight fictional Philippine businesses across climate tech, circular economy, health, education, agriculture, and enterprise software. It supports combined search, sector, region, stage, and readiness filters; four sort modes; session-only saved records; three-venture comparison; and a Blind First Look control that redacts identity cues consistently. Each synthetic detail view has dedicated Overview, Readiness, Evidence, and Milestones tabs with deterministic factor points, nine readiness workflow states, fictional document metadata, business-model context, funding needs, gaps, and impact goals. The records live in `apps/web/src/lib/sample-ventures.ts`, remain separate from Supabase data, and cannot enter authenticated workflows.
 
 The How It Works page includes an accessible native disclosure FAQ covering product boundaries, readiness, matching, Blind First Look, evidence, and AI. This carries forward the useful question-and-answer interaction of the legacy prototype without restoring its retired transactional concepts.
+
+### Venture intelligence and future pathways
+
+The `/intelligence` experience adds a deterministic scenario lab for the eight synthetic ventures. Users can select a 6-, 12-, 18-, or 24-month horizon; apply cautious, baseline, or accelerated operating assumptions; or directly adjust readiness-work pace, new-evidence cadence, and milestone reliability. The output displays a central readiness trajectory, an uncertainty band, evidence growth, estimated verified checkpoints, and an evidence-base label. Founder and investor/mentor perspectives explain the same result differently while leaving the venture’s current compatibility score unchanged.
+
+The lab never calculates a survival probability, fundraising probability, investment return, valuation, or investment verdict. Its public “AI-assisted interpretation” is explicitly a synthetic template with no model call. In the authenticated product, any future AI narrative remains advisory and separate from the deterministic projection.
+
+Two longer-term concepts are represented as future validation pathways rather than active services:
+
+- ready-to-operate microbusiness systems, covering operator fit, package evidence, permits, training, assumptions, launch readiness, and operating measurement;
+- SME continuity and ownership transfer, covering owner preparation, anonymized screening, controlled diligence, professional advice, transition milestones, and post-transfer support.
+
+Both reuse the evidence, readiness, permissions, matching, consent, and audit foundations. Neither currently lists businesses, sells packages, intermediates a sale, holds money, executes a transfer, or guarantees income.
 
 An accessible header toggle provides light and dark themes. The selection persists only in local browser storage, honors the operating-system preference for first-time visitors, is applied before first paint under the nonce-based Content Security Policy, and is covered by desktop/mobile persistence and axe checks. Responsive rules include wide-screen, tablet, phone, narrow-phone, landscape, coarse-pointer, reduced-motion, and increased-contrast behavior.
 
@@ -194,14 +208,14 @@ Completed locally on the release source:
 
 | Check | Result |
 | --- | --- |
-| Vitest unit suites | 11 files, 42 tests passed |
+| Vitest unit suites | 12 files, 45 tests passed |
 | ESLint | Passed |
 | TypeScript `tsc --noEmit` | Passed |
 | Next.js production build | Passed |
-| Playwright | 16 tests passed across desktop/mobile projects |
+| Playwright | 18 tests passed across desktop/mobile projects |
 | Responsive overflow | Passed at 320, 375, 768, 1024, and 1440 px |
 | Keyboard and automated accessibility | No serious or critical Axe findings |
-| Lighthouse homepage production build | Performance 0.93, Accessibility 1.00, Best Practices 0.96, SEO 1.00 |
+| Lighthouse homepage production build | Performance 0.91, Accessibility 1.00, Best Practices 0.96, SEO 1.00 |
 | Production dependency audit | 0 known vulnerabilities at high threshold |
 | Browser bundle secret scan | No server credential names/values found |
 | Staged-diff secret scan | Clear |

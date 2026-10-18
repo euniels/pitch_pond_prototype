@@ -24,7 +24,7 @@ test("public value proposition is complete and contains no crowdfunding language
 test("public pages have no serious accessibility violations", async ({
   page,
 }) => {
-  for (const route of ["/how-it-works", "/demo"]) {
+  for (const route of ["/how-it-works", "/demo", "/intelligence"]) {
     await page.goto(route);
     const results = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
@@ -104,6 +104,31 @@ test("how-it-works guidance expands without leaving the page", async ({ page }) 
   ).toBeVisible();
 });
 
+test("venture intelligence recalculates scenarios and switches perspectives", async ({
+  page,
+}) => {
+  await page.goto("/intelligence");
+  await expect(
+    page.getByRole("heading", { name: /See the trajectory/i }),
+  ).toBeVisible();
+  await page.getByLabel("Sample venture").selectOption("tanimsense");
+  await page.getByRole("button", { name: "24 mo" }).click();
+  await page.getByRole("button", { name: /Accelerated/ }).click();
+  await expect(page.getByText("55 total linked items")).toBeVisible();
+
+  await page.getByRole("tab", { name: "Investor / mentor" }).click();
+  await expect(page.getByText(/compatibility result remains/i)).toContainText(
+    "79/100",
+  );
+
+  await page
+    .getByRole("tab", { name: /Continue a proven business/ })
+    .click();
+  await expect(
+    page.getByRole("heading", { name: "SME continuity and ownership transfer" }),
+  ).toBeVisible();
+});
+
 test("theme choice persists and dark mode remains accessible", async ({ page }) => {
   await page.emulateMedia({ colorScheme: "light" });
   await page.goto("/");
@@ -129,9 +154,10 @@ test("theme choice persists and dark mode remains accessible", async ({ page }) 
 test("key public routes do not overflow at release breakpoints", async ({
   page,
 }) => {
+  test.setTimeout(120_000);
   for (const width of [320, 375, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
-    for (const route of ["/", "/pricing", "/pilot", "/demo"]) {
+    for (const route of ["/", "/pricing", "/pilot", "/demo", "/intelligence"]) {
       await page.goto(route);
       const dimensions = await page.evaluate(() => ({
         scrollWidth: document.documentElement.scrollWidth,
@@ -157,7 +183,7 @@ test("primary navigation and calls to action are keyboard reachable", async ({
     .getByRole("link", { name: "Join the pilot" });
   await expect(primaryCta).toBeVisible();
   await primaryCta.focus();
-  await page.keyboard.press("Enter");
-  await expect(page).toHaveURL(/\/pilot$/);
+  await primaryCta.press("Enter");
+  await expect(page).toHaveURL(/\/pilot$/, { timeout: 30_000 });
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 });

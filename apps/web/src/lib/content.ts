@@ -2,6 +2,7 @@ export const navItems = [
   { href: "/how-it-works", label: "How it works" },
   { href: "/founder-studio", label: "For founders" },
   { href: "/matching", label: "For supporters" },
+  { href: "/intelligence", label: "Intelligence" },
   { href: "/institutions", label: "For institutions" },
   { href: "/pricing", label: "Pricing" },
 ];
@@ -499,7 +500,7 @@ export const contentPages = {
     title: "AI assists the work. It does not make the decision.",
     intro:
       "PitchPond uses constrained AI for organization, gap suggestions, evidence summaries, and clear language around deterministic match factors.",
-    note: "AI output can be incomplete or wrong. Users must review and edit it; human reviewers remain accountable for readiness and support decisions.",
+    note: "AI output can be incomplete or wrong. Scenario projections are deterministic, assumption-based ranges rather than AI predictions. Users must review both; human reviewers remain accountable for readiness, support, and investment decisions.",
     items: [
       {
         title: "Limited purposes",

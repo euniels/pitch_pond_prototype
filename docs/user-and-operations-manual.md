@@ -38,6 +38,20 @@ The public `/demo` page contains eight fictional venture records for training an
 
 Use the sun/moon control in the site header to switch between light and dark mode. The choice is saved in the current browser and remains after reloading or navigating to another page. A first-time visitor inherits the device theme preference. This preference changes presentation only; it does not affect scores, data, memberships, visibility, or permissions.
 
+### Use Venture Intelligence scenarios
+
+Open `/intelligence` and select one of the synthetic ventures. Choose a 6-, 12-, 18-, or 24-month horizon, then select a cautious, baseline, or accelerated operating scenario. You may also adjust the three assumptions directly:
+
+1. **Readiness work pace** controls assumed monthly progress through readiness work.
+2. **New evidence pace** controls the number of additional linked evidence records per quarter.
+3. **Milestone reliability** controls the assumed share of planned checkpoints likely to become verified during the selected period.
+
+The chart shows a central readiness trajectory and a widening uncertainty band. The cards show projected evidence growth, estimated verified checkpoints, and the current strength of the evidence base. Switch between **Founder** and **Investor / mentor** to see role-appropriate interpretation. Changing a projection never changes the authoritative readiness snapshot or compatibility result.
+
+These scenarios are planning aids, not predictions of business survival, fundraising, valuation, investment returns, or investment suitability. Update assumptions whenever actual evidence arrives, and do not use the scenario as a substitute for diligence or professional advice.
+
+The same page previews two future concepts: microbusiness launch systems and SME ownership continuity. These are concept-validation pathways only. PitchPond does not currently sell business packages, list SMEs for sale, broker a transfer, hold transaction funds, or guarantee business income.
+
 ## 3. Founder manual
 
 ### Create the venture profile

@@ -7,7 +7,10 @@ import {
   Eye,
   FileCheck2,
   Link2,
+  LineChart,
   Network,
+  PackageCheck,
+  Repeat2,
   Route,
   ShieldCheck,
   Users,
@@ -162,6 +165,27 @@ export default function Home() {
             intro="Explore fictional Philippine businesses built to demonstrate evidence coverage, readiness gaps, milestone history, and explainable investor fit."
           />
           <VentureSandbox preview />
+        </div>
+      </section>
+      <section className="section intelligence-teaser-section">
+        <div className="shell intelligence-teaser">
+          <div>
+            <span className="eyebrow light">Assumption-based venture intelligence</span>
+            <h2>Project progress without pretending to predict success.</h2>
+            <p>
+              Model readiness, evidence, and milestone trajectories over time.
+              Founders see what to strengthen; investors and mentors see which
+              assumptions drive the picture.
+            </p>
+            <Link className="button button-lime" href="/intelligence">
+              Open Venture Intelligence <ArrowRight />
+            </Link>
+          </div>
+          <div className="intelligence-teaser-cards">
+            <div><LineChart /><span>Now</span><strong>Startup progress scenarios</strong><small>Transparent ranges—not success odds</small></div>
+            <div><PackageCheck /><span>Future</span><strong>Microbusiness launch systems</strong><small>Ready-to-operate packages with verified assumptions</small></div>
+            <div><Repeat2 /><span>Future</span><strong>SME continuity pathways</strong><small>Responsible ownership transition workflows</small></div>
+          </div>
         </div>
       </section>
       <section className="section shell readiness-section">

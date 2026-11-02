@@ -112,9 +112,15 @@ test("venture intelligence recalculates scenarios and switches perspectives", as
     page.getByRole("heading", { name: /See the trajectory/i }),
   ).toBeVisible();
   await page.getByLabel("Sample venture").selectOption("tanimsense");
-  await page.getByRole("button", { name: "24 mo" }).click();
+  await page.getByRole("button", { name: "2 yr" }).click();
   await page.getByRole("button", { name: /Accelerated/ }).click();
   await expect(page.getByText("55 total linked items")).toBeVisible();
+  await expect(page.getByText("Data-backed likelihood")).toBeVisible();
+  await expect(
+    page.getByText(/data confidence · model 2026\.2/i),
+  ).toBeVisible();
+  await page.getByText("How this percentage was calculated").click();
+  await expect(page.getByText(/seeded simulation/i)).toBeVisible();
 
   await page.getByRole("tab", { name: "Investor / mentor" }).click();
   await expect(page.getByText(/compatibility result remains/i)).toContainText(
@@ -132,15 +138,16 @@ test("venture intelligence recalculates scenarios and switches perspectives", as
 test("theme choice persists and dark mode remains accessible", async ({ page }) => {
   await page.emulateMedia({ colorScheme: "light" });
   await page.goto("/");
-  const toggle = page.getByRole("button", { name: "Use dark mode" });
-  await toggle.click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  const toggle = page.getByRole("button", { name: "Use light mode" });
+  await toggle.click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   await expect(
-    page.getByRole("button", { name: "Use light mode" }),
+    page.getByRole("button", { name: "Use dark mode" }),
   ).toBeVisible();
 
   await page.reload();
-  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   const results = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
     .analyze();
@@ -155,7 +162,9 @@ test("key public routes do not overflow at release breakpoints", async ({
   page,
 }) => {
   test.setTimeout(120_000);
-  for (const width of [320, 375, 768, 1024, 1440]) {
+  // 1105px protects the compact-header/tablet-dashboard transition captured
+  // during visual acceptance testing, in addition to the release breakpoints.
+  for (const width of [320, 375, 768, 1024, 1105, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     for (const route of ["/", "/pricing", "/pilot", "/demo", "/intelligence"]) {
       await page.goto(route);

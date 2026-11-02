@@ -268,6 +268,7 @@ h3 {
   border-radius: 999px;
   font-size: 0.81rem;
   font-weight: 750;
+  white-space: nowrap;
 }
 .desktop-nav a:hover {
   color: var(--navy);
@@ -1829,7 +1830,7 @@ legend {
   justify-content: space-between;
   font-size: 0.68rem;
 }
-@media (max-width: 1050px) {
+@media (max-width: 1160px) {
   .desktop-nav {
     display: none;
   }

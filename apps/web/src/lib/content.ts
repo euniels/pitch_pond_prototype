@@ -500,7 +500,7 @@ export const contentPages = {
     title: "AI assists the work. It does not make the decision.",
     intro:
       "PitchPond uses constrained AI for organization, gap suggestions, evidence summaries, and clear language around deterministic match factors.",
-    note: "AI output can be incomplete or wrong. Scenario projections are deterministic, assumption-based ranges rather than AI predictions. Users must review both; human reviewers remain accountable for readiness, support, and investment decisions.",
+    note: "AI output can be incomplete or wrong. Goal-attainment percentages come from a deterministic, versioned forecast—not from the language model. AI may explain the fixed drivers and limitations but cannot change the result. Human reviewers remain accountable for support and investment decisions.",
     items: [
       {
         title: "Limited purposes",

@@ -372,6 +372,220 @@ export type Database = {
         };
         Update: never;
       };
+      venture_metrics: {
+        Row: {
+          id: string;
+          venture_id: string;
+          key: string;
+          name: string;
+          category: string;
+          unit: string;
+          direction: string;
+          cadence: string;
+          privacy_classification: string;
+          active: boolean;
+          created_by: string;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          venture_id: string;
+          key: string;
+          name: string;
+          category: string;
+          unit: string;
+          direction: string;
+          cadence: string;
+          privacy_classification?: string;
+          active?: boolean;
+          created_by: string;
+        };
+        Update: {
+          name?: string;
+          category?: string;
+          unit?: string;
+          direction?: string;
+          cadence?: string;
+          privacy_classification?: string;
+          active?: boolean;
+        };
+      };
+      metric_observations: {
+        Row: {
+          id: string;
+          metric_id: string;
+          venture_id: string;
+          value: number;
+          observed_on: string;
+          source: string;
+          verification_state: string;
+          evidence_id: string | null;
+          supersedes_id: string | null;
+          created_by: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          metric_id: string;
+          venture_id: string;
+          value: number;
+          observed_on: string;
+          source?: string;
+          verification_state?: string;
+          evidence_id?: string | null;
+          supersedes_id?: string | null;
+          created_by: string;
+        };
+        Update: never;
+      };
+      projection_goals: {
+        Row: {
+          id: string;
+          venture_id: string;
+          metric_id: string;
+          label: string;
+          baseline_value: number;
+          target_value: number;
+          weight: number;
+          target_date: string;
+          scenario_inputs: Json;
+          status: string;
+          created_by: string;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          venture_id: string;
+          metric_id: string;
+          label: string;
+          baseline_value: number;
+          target_value: number;
+          weight: number;
+          target_date: string;
+          scenario_inputs?: Json;
+          status?: string;
+          created_by: string;
+        };
+        Update: {
+          label?: string;
+          baseline_value?: number;
+          target_value?: number;
+          weight?: number;
+          target_date?: string;
+          scenario_inputs?: Json;
+          status?: string;
+        };
+      };
+      goal_evidence_links: {
+        Row: {
+          goal_id: string;
+          evidence_id: string;
+          linked_by: string;
+          created_at: string;
+        };
+        Insert: {
+          goal_id: string;
+          evidence_id: string;
+          linked_by: string;
+        };
+        Update: never;
+      };
+      projection_model_versions: {
+        Row: {
+          version: string;
+          name: string;
+          config: Json;
+          active: boolean;
+          created_by: string | null;
+          created_at: string;
+        };
+        Insert: {
+          version: string;
+          name: string;
+          config: Json;
+          active?: boolean;
+          created_by?: string | null;
+        };
+        Update: { active?: boolean };
+      };
+      projection_runs: {
+        Row: {
+          id: string;
+          goal_id: string;
+          venture_id: string;
+          created_by: string;
+          model_version: string;
+          scenario: string;
+          horizon_months: number;
+          input_hash: string;
+          input_kind: string;
+          probability: number;
+          confidence: number;
+          status_band: string;
+          indexed_series: Json;
+          exact_series: Json;
+          drivers: Json;
+          limitations: Json;
+          sensitivity: Json;
+          input_summary: Json;
+          expected_target_date: string | null;
+          calculated_at: string;
+          stale_after: string;
+        };
+        Insert: {
+          id?: string;
+          goal_id: string;
+          venture_id: string;
+          created_by: string;
+          model_version: string;
+          scenario: string;
+          horizon_months: number;
+          input_hash: string;
+          input_kind: string;
+          probability: number;
+          confidence: number;
+          status_band: string;
+          indexed_series: Json;
+          exact_series: Json;
+          drivers?: Json;
+          limitations?: Json;
+          sensitivity?: Json;
+          input_summary?: Json;
+          expected_target_date?: string | null;
+          stale_after: string;
+        };
+        Update: never;
+      };
+      projection_shares: {
+        Row: {
+          id: string;
+          run_id: string;
+          venture_id: string;
+          recipient_id: string;
+          shared_by: string;
+          visibility: string;
+          match_id: string | null;
+          introduction_id: string | null;
+          expires_at: string;
+          revoked_at: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          run_id: string;
+          venture_id: string;
+          recipient_id: string;
+          shared_by: string;
+          visibility?: string;
+          match_id?: string | null;
+          introduction_id?: string | null;
+          expires_at: string;
+          revoked_at?: string | null;
+        };
+        Update: { expires_at?: string; revoked_at?: string | null };
+      };
       pilot_applications: {
         Row: {
           id: string;
@@ -403,6 +617,10 @@ export type Database = {
         Args: { p_version: string };
         Returns: undefined;
       };
+      activate_projection_model: {
+        Args: { p_version: string };
+        Returns: undefined;
+      };
       accept_invitation: {
         Args: { p_token_hash: string };
         Returns: Json;
@@ -414,6 +632,10 @@ export type Database = {
       review_readiness_section: {
         Args: { p_venture_id: string; p_dimension: string };
         Returns: undefined;
+      };
+      get_shared_projection: {
+        Args: { p_run_id: string };
+        Returns: Json;
       };
     };
     Enums: Record<string, never>;

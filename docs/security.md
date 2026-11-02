@@ -1,5 +1,7 @@
 # Security and privacy operations
 
+- **Current release gate (3 November 2026):** Next.js 16.4.0 is affected by a critical published advisory. Do not promote this build until the dedicated framework security upgrade has been applied and unit, lint, type, build, browser, accessibility, Lighthouse, audit, and secret-exposure checks have all been repeated.
+
 - Service-role, OpenAI, Resend, scanner, and cron secrets are server-only. Never expose them through `NEXT_PUBLIC_` variables, browser logs, support exports, or analytics.
 - Production uploads are unavailable unless malware scanning is configured. Test the adapter with benign samples, MIME mismatches, oversized files, archive bombs, and EICAR before enabling the flag.
 - Product logs must contain stable event IDs and redacted errors, not document text, access tokens, auth links, raw AI prompts, or personal profile fields.

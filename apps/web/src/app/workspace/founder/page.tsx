@@ -1,9 +1,11 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import {
   FileKey2,
   Flag,
   Handshake,
   Link2,
+  LineChart,
   MessageSquareText,
   Network,
   Sparkles,
@@ -67,6 +69,7 @@ export default async function Page() {
     grantsResult,
     diligenceResult,
     matchResult,
+    projectionResult,
   ] = row
     ? await Promise.all([
         supabase.from("venture_sections").select("*").eq("venture_id", row.id),
@@ -108,6 +111,13 @@ export default async function Page() {
           .order("calculated_at", { ascending: false })
           .limit(1)
           .maybeSingle(),
+        supabase
+          .from("projection_runs")
+          .select("probability,confidence,input_kind,calculated_at")
+          .eq("venture_id", row.id)
+          .order("calculated_at", { ascending: false })
+          .limit(1)
+          .maybeSingle(),
       ])
     : [
         { data: [] },
@@ -118,6 +128,7 @@ export default async function Page() {
         { data: [] },
         { data: [] },
         { data: [] },
+        { data: null },
         { data: null },
       ];
   const sections = sectionsResult.data ?? [];
@@ -367,6 +378,43 @@ export default async function Page() {
         </div>
         <ReadinessMap items={venture.readiness} />
       </section>
+      {row && (
+        <section className="workspace-panel founder-projection-summary">
+          <div className="panel-heading">
+            <div>
+              <span className="eyebrow">Goal attainment analytics</span>
+              <h2>Track the next 6 months—or the next three years.</h2>
+            </div>
+            <LineChart />
+          </div>
+          <div className="founder-projection-summary-grid">
+            <div>
+              <span>Latest goal likelihood</span>
+              <strong>
+                {projectionResult.data
+                  ? `${projectionResult.data.probability}%`
+                  : "Not calculated"}
+              </strong>
+              <small>
+                {projectionResult.data
+                  ? `${projectionResult.data.confidence}/100 data confidence · ${projectionResult.data.input_kind.replace("_", " ")}`
+                  : "Create metrics, actuals, and a measurable target."}
+              </small>
+            </div>
+            <p>
+              Forecasts keep readiness, investor compatibility, and goal
+              likelihood separate. Every percentage includes assumptions,
+              uncertainty, model version, and limitations.
+            </p>
+            <Link
+              className="button button-primary"
+              href="/workspace/founder/projections"
+            >
+              Open venture projections
+            </Link>
+          </div>
+        </section>
+      )}
       {row && (
         <section className="workspace-panel">
           <AiReadinessReview

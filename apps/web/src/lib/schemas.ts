@@ -99,3 +99,92 @@ export const claimEvidenceLinkSchema = z.object({
   claimId: z.string().uuid(),
   evidenceId: z.string().uuid(),
 });
+
+export const metricCategorySchema = z.enum([
+  "revenue",
+  "active_customers",
+  "retention",
+  "gross_margin",
+  "cash_runway",
+  "product_milestone",
+  "readiness",
+  "evidence_coverage",
+  "custom",
+]);
+
+export const metricUnitSchema = z.enum([
+  "php",
+  "count",
+  "percent",
+  "months",
+  "score",
+  "custom",
+]);
+
+export const ventureMetricSchema = z.object({
+  ventureId: z.string().uuid(),
+  key: z.string().trim().regex(/^[a-z0-9_]{2,60}$/),
+  name: z.string().trim().min(2).max(100),
+  category: metricCategorySchema,
+  unit: metricUnitSchema,
+  direction: z.enum(["increase", "decrease"]),
+  cadence: z.enum(["weekly", "monthly", "quarterly"]),
+  privacyClassification: z.enum(["indexed", "exact"]),
+});
+
+const projectionValue = z.coerce.number().finite().min(-1_000_000_000).max(1_000_000_000);
+const optionalProjectionAssumption = z.preprocess(
+  (value) => (value === "" || value === null ? undefined : value),
+  z.coerce.number().finite().min(0).max(1_000_000_000).optional(),
+);
+const optionalPercentageAssumption = z.preprocess(
+  (value) => (value === "" || value === null ? undefined : value),
+  z.coerce.number().finite().min(0).max(100).optional(),
+);
+
+export const metricObservationSchema = z.object({
+  ventureId: z.string().uuid(),
+  metricId: z.string().uuid(),
+  value: projectionValue,
+  observedOn: z.string().date(),
+  verificationState: z.enum(["self_reported", "evidence_linked", "reviewed"]),
+  evidenceId: z.string().uuid().or(z.literal("")),
+});
+
+export const projectionGoalSchema = z
+  .object({
+    ventureId: z.string().uuid(),
+    metricId: z.string().uuid(),
+    label: z.string().trim().min(3).max(140),
+    baselineValue: projectionValue,
+    targetValue: projectionValue,
+    weight: z.coerce.number().int().min(1).max(100),
+    targetDate: z.string().date(),
+    expectedMonthlyChange: projectionValue,
+    monthlyVolatility: z.coerce.number().finite().min(0).max(1_000_000_000),
+    customerAcquisitionPerMonth: optionalProjectionAssumption,
+    retentionPercent: optionalPercentageAssumption,
+    monthlyBurnAmount: optionalProjectionAssumption,
+    milestoneReliability: optionalPercentageAssumption,
+    evidenceCadencePerMonth: optionalProjectionAssumption,
+  })
+  .refine((value) => value.baselineValue !== value.targetValue, {
+    message: "Target must differ from the baseline.",
+    path: ["targetValue"],
+  });
+
+export const projectionCalculationSchema = z.object({
+  goalId: z.string().uuid(),
+  scenario: z.enum(["cautious", "baseline", "accelerated"]),
+  asOfDate: z.string().date().optional(),
+});
+
+export const projectionShareSchema = z.object({
+  runId: z.string().uuid(),
+  ventureId: z.string().uuid(),
+  recipientId: z.string().uuid(),
+  visibility: z.enum(["indexed", "exact"]),
+  matchId: z.string().uuid().or(z.literal("")),
+  introductionId: z.string().uuid().or(z.literal("")),
+  expiresAt: z.string().datetime(),
+});

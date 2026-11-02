@@ -4,7 +4,7 @@ This manual covers pilot participants, platform operators, deployment, acceptanc
 
 ## 1. Product rules everyone should know
 
-PitchPond helps founders organize evidence, reviewers assess readiness, and supporters understand compatibility. A readiness state measures completed work and evidence coverage. A compatibility score measures fit against a disclosed thesis. Neither predicts investment success.
+PitchPond helps founders organize evidence, reviewers assess readiness, and supporters understand compatibility. A readiness state measures completed work and evidence coverage. A compatibility score measures fit against a disclosed thesis. Goal Attainment Likelihood estimates whether one measurable founder goal will be reached by its declared date. These three values are separate, and none predicts company success, survival, fundraising, or investment return.
 
 Do not upload information you are not authorized to share. Do not treat a match, AI suggestion, readiness state, introduction, or reviewer comment as investment, legal, tax, or accounting advice. PitchPond does not accept investments, hold funds, or sell placement.
 
@@ -36,19 +36,13 @@ Use **Sign out** in the workspace. On a shared device, also close the browser. N
 
 The public `/demo` page contains eight fictional venture records for training and product walkthroughs. Search by name, sector, city, or region; combine sector, region, stage, and minimum-readiness filters; and sort by compatibility, readiness, evidence coverage, or name. Select a card and use its **Overview**, **Readiness**, **Evidence**, and **Milestones** tabs to inspect the synthetic record. **Save** marks records during the current session, while **Compare** opens a side-by-side view for as many as three ventures. **Blind First Look** immediately replaces names, monograms, and exact cities with neutral identifiers and generalized regions across cards, details, and comparisons. Select **Reset** to restore the complete filtered set. None of these records is a real applicant, customer, investment result, or production database record.
 
-Use the sun/moon control in the site header to switch between light and dark mode. The choice is saved in the current browser and remains after reloading or navigating to another page. A first-time visitor inherits the device theme preference. This preference changes presentation only; it does not affect scores, data, memberships, visibility, or permissions.
+Use the sun/moon control in the site header to switch between light and dark mode. The choice is saved in the current browser and remains after reloading or navigating to another page. A first-time visitor starts in PitchPond's deep-pond dark theme. This preference changes presentation only; it does not affect scores, data, memberships, visibility, or permissions.
 
 ### Use Venture Intelligence scenarios
 
-Open `/intelligence` and select one of the synthetic ventures. Choose a 6-, 12-, 18-, or 24-month horizon, then select a cautious, baseline, or accelerated operating scenario. You may also adjust the three assumptions directly:
+Open `/intelligence` and select one of the fictional ventures. Choose 6 months, 1 year, 2 years, or 3 years, then choose cautious, baseline, or accelerated assumptions. The interactive example displays a Goal Attainment Likelihood, Data Confidence, actual/P10/P50/P90 path, goal cards, numeric drivers, evidence freshness, scenario sensitivity, and a founder/investor perspective switch. Every number is synthetic, no production venture data is used, and the example makes no network AI call.
 
-1. **Readiness work pace** controls assumed monthly progress through readiness work.
-2. **New evidence pace** controls the number of additional linked evidence records per quarter.
-3. **Milestone reliability** controls the assumed share of planned checkpoints likely to become verified during the selected period.
-
-The chart shows a central readiness trajectory and a widening uncertainty band. The cards show projected evidence growth, estimated verified checkpoints, and the current strength of the evidence base. Switch between **Founder** and **Investor / mentor** to see role-appropriate interpretation. Changing a projection never changes the authoritative readiness snapshot or compatibility result.
-
-These scenarios are planning aids, not predictions of business survival, fundraising, valuation, investment returns, or investment suitability. Update assumptions whenever actual evidence arrives, and do not use the scenario as a substitute for diligence or professional advice.
+The percentage answers only this question: “Under the displayed assumptions and fictional history, how often do simulated paths reach this specific target by its due date?” It is not a prediction of business survival, fundraising, valuation, investment returns, or investment suitability. The compatibility result remains independent when the perspective or scenario changes.
 
 The same page previews two future concepts: microbusiness launch systems and SME ownership continuity. These are concept-validation pathways only. PitchPond does not currently sell business packages, list SMEs for sale, broker a transfer, hold transaction funds, or guarantee business income.
 
@@ -106,6 +100,42 @@ Do not rename an executable or archive to an accepted extension. Extension, MIME
 ### Ask for AI assistance
 
 AI controls appear only when the feature is enabled. Review exactly which profile fields or clean evidence item will be sent, provide explicit consent, and start the run. Treat the response as a draft: verify every statement and reference, edit what you keep, and never assume the model reviewed material that was not selected. AI cannot change a readiness state or compatibility score.
+
+### Create and maintain venture projections
+
+Open **Venture projections** from Founder Studio. The workflow has three source-record steps followed by calculation and optional sharing:
+
+1. Create an operating metric. Select revenue, active customers, retention, gross margin, cash runway, milestone completion, readiness completion, evidence coverage, or a custom numeric category. Define its unit, whether higher or lower is better, reporting cadence, and privacy classification.
+2. Record dated actual observations. Enter only actual values, choose the source, and link clean Evidence Vault records when available. A verified observation must have a supportable date. Supersede an incorrect entry with a traceable replacement rather than changing history silently.
+3. Set a goal. Enter baseline, target, importance weight, due date, and cautious/baseline/accelerated assumptions. Use the 6-, 12-, 24-, or 36-month preset or a custom future date. Active goal weights must total 100 before the portfolio index can be calculated.
+   Open **Category-specific operating context** to record acquisition, retention, burn, milestone reliability, or evidence cadence when relevant. Model 2026.2 stores these for disclosure, comparison, and AI explanation; only expected monthly change and monthly variability feed its percentage. This explicit separation prevents a contextual field from silently changing the forecast.
+4. Calculate. The server reads the authoritative metric, goal, clean evidence links, and verified observations. It writes a new immutable snapshot containing the model version and input hash. A scenario change produces a new snapshot and never overwrites history.
+5. Review the result. Read the target likelihood, status band, P10/P50/P90 paths, expected target date, Data Confidence, scenario sensitivity, drivers, input coverage, assumptions, and limitations together.
+
+Open **Compare with previous immutable snapshot** to see the earlier/current likelihood, confidence, scenario, timestamps, and a field-by-field list of changed source inputs. A **Refresh needed** badge means the run passed its cadence-based freshness date; add a current actual before recalculating rather than treating the stale percentage as current.
+
+Results have two evidence stages:
+
+- **Assumption-based Scenario Likelihood** appears when fewer than three verified observations span at least 60 days. It is prominently marked low confidence and relies on the assumptions you entered.
+- **Data-backed Likelihood** unlocks only after at least three verified dated observations span 60 days. It still remains a forecast, not a fact or guarantee.
+
+Data Confidence is separate from likelihood. It awards up to 30 points for linked-evidence verification, 20 for observation count, 20 for historical span, 15 for recency, and 15 for cadence consistency. Improve it by reporting real observations on schedule and linking clean support—not by changing a target merely to obtain a better percentage.
+
+The status labels are **On track** (70–100%), **Watch closely** (40–69%), and **At risk** (0–39%). They must never be reworded as invest/do-not-invest, company success, or expected return. Use **How this was calculated** on every saved result to verify model version, calculation date, observations, date span, assumptions, simulation count, and limitations.
+
+### Request a projection explanation
+
+Choose a saved projection, select only the clean evidence you want included, decide whether exact values may be transmitted for this one request, and give explicit consent. The AI response may summarize drivers, risks, sensitivity, stale/missing information, next actions, investor questions, referenced evidence, and limitations. It cannot create or overwrite the percentage, confidence, observations, targets, readiness, compatibility, or shares. If the provider refuses, times out, returns invalid references, or is unavailable, the saved deterministic projection remains authoritative and usable.
+
+### Share or revoke a projection
+
+1. Choose a single immutable snapshot and an eligible matched investor or active introduction participant.
+2. Prefer **Indexed** visibility. It exposes progress, trends, bands, relative paths, confidence, and assumptions without exact peso values.
+3. Use **Exact** only for a recipient with an accepted introduction/diligence context, state a purpose, and choose a short expiry.
+4. Confirm the recipient, visibility, context, and expiry before sharing. The action is audited.
+5. Revoke access when the purpose ends. Expired or revoked shares fail at read time and the investor loses subsequent platform access to that snapshot.
+
+Revocation cannot recall screenshots or files already exported by a recipient. Share the minimum necessary detail and follow the pilot confidentiality process.
 
 ### Grant document access
 
@@ -165,6 +195,14 @@ After an accepted introduction, create a narrowly scoped diligence item with a u
 
 The optional narrative explains stored match factors; it does not calculate or alter them. If the prose conflicts with the displayed factor table, the deterministic factor table is authoritative and the issue should be reported.
 
+### Review a shared projection
+
+A projection appears only when the founder has shared that exact snapshot and the grant remains active. Blind First Look shows generalized venture facts and indexed analytics: progress, growth percentage, direction, forecast band, runway band, goal status, confidence, assumptions, and evidence age. Venture identity remains hidden until the separate audited reveal workflow is completed.
+
+Inspect the goal definition, due date, actual/P10/P50/P90 paths, status, confidence components, sensitivity, evidence freshness, model version, and disclosure. Compatibility remains independent and must not be adjusted because a projection looks favorable or unfavorable. You cannot edit founder inputs or request that PitchPond change a percentage.
+
+To see exact peso values, request exact-value access through an accepted introduction/diligence workflow and explain the purpose. The founder may approve an expiring exact share, decline it, or revoke it later. Every shared view and exact-value reveal is audited. You may request refreshed observations or supporting evidence, but the founder remains the source of record.
+
 ## 5. Institution reviewer and manager manual
 
 ### Manager setup
@@ -186,7 +224,7 @@ The optional narrative explains stored match factors; it does not calculate or a
 
 ### Pilot analytics
 
-The institution dashboard derives completion, evidence coverage, screening time, match acceptance, introductions, meetings, and outcomes from real product events. Treat small-cohort analytics as operational signals, not generalized investment-performance claims. Do not export or publish participant-level data without the applicable consent and approved privacy basis.
+The institution dashboard derives completion, evidence coverage, screening time, match acceptance, introductions, meetings, and outcomes from real product events. Projection distributions include goal status, Data Confidence, reporting freshness, and readiness movement only for explicitly shared cohort ventures. Groups smaller than three are suppressed rather than exposing an identifiable aggregate. Venture-level projections require both cohort assignment and founder permission. Treat these analytics as operational signals, not generalized investment-performance claims. Do not export or publish participant-level data without the applicable consent and approved privacy basis.
 
 ### Introduction coordination
 
@@ -216,6 +254,8 @@ Choose the organization, plan, and optional end date. Plans control pilot entitl
 
 - `file_uploads`: keep disabled until scanner, storage, MIME/checksum, EICAR, grant, expiry, and deletion tests pass in the target environment.
 - `ai_assistance`: keep disabled until OpenAI structured output, consent, refusal, timeout, fallback, usage recording, and log-redaction tests pass.
+- `venture_projections`: keep disabled until migration, RLS, deterministic-model, indexed/exact sharing, audit, export, refresh, accessibility, and acceptance tests pass.
+- `projection_ai`: keep disabled until projection-specific consent, exact-value redaction, authorized evidence ID, strict schema, refusal, timeout, and provider-fallback tests pass. It may remain disabled while deterministic projections are enabled.
 - `blind_reveal`: enable only after reveal authorization and audit events pass.
 
 Disable the relevant flag immediately during a provider or privacy incident.
@@ -275,7 +315,7 @@ Only the first three values are public by design. Never prefix any other secret 
 4. Link the CLI from the repository root and apply `supabase/migrations` with the approved Supabase migration command.
 5. Confirm the migration created a private `evidence` bucket, seeded reference plans/rubrics/flags only, enabled RLS on all public tables, and denied anonymous business-data reads.
 6. From `apps/web`, run `npm run db:types` and review the generated diff against the applied schema.
-7. Run `npx supabase test db`; all 33 assertions must pass.
+7. Run `npx supabase test db`; every base and projection pgTAP assertion must pass, including the 27 projection authorization, bounds, and immutability checks.
 8. Seed only synthetic staging users/organizations and one MFA-enabled administrator through the approved bootstrap method. Do not copy production personal data.
 
 ### Configure and link Vercel safely
@@ -322,6 +362,10 @@ Use synthetic accounts and complete every journey:
 9. **AI:** explicit consent → each purpose → valid structured response → fabricated ID rejection → refusal → timeout → rate limit → provider outage fallback.
 10. **Data rights:** export → evidence delete → venture delete → account deletion request → retention job.
 11. **Accessibility/responsiveness:** keyboard, visible focus, screen reader names/headings, reduced motion, contrast, and widths 320/375/768/1024/1440.
+12. **Projection:** create a metric and goal, calculate with two verified observations, confirm the assumption-based label, add a third qualifying observation spanning 60 days, and confirm a new data-backed snapshot.
+13. **Projection sharing:** create an indexed matched-investor share, inspect Blind First Look, request exact values, accept an introduction, grant expiring exact access, verify the audit event, and confirm revoke/expiry denial.
+14. **Projection isolation:** change the plan, organization name/prestige, AI narrative, and match score independently and prove that the projection input hash and percentage remain unchanged.
+15. **Institution privacy:** explicitly shared cohort projections aggregate for three or more ventures; one- and two-venture groups remain suppressed.
 
 Record tester, time, environment, test data IDs, expected result, actual result, and evidence for every case. Every failure affecting access control, evidence safety, consent, audit integrity, score determinism, or secret exposure blocks promotion.
 
@@ -333,7 +377,7 @@ Record tester, time, environment, test data IDs, expected result, actual result,
 4. Apply the same reviewed additive migration. Seed reference plans, rubric versions, and feature flags only.
 5. Repeat pgTAP and core RLS smoke checks against the production candidate.
 6. Configure exact production Site URL, callbacks, SMTP, providers, retention, and secrets.
-7. Keep `file_uploads` and `ai_assistance` disabled at first production boot.
+7. Keep `file_uploads`, `ai_assistance`, `venture_projections`, and `projection_ai` disabled at first production boot.
 
 ### Promote production
 
@@ -350,7 +394,7 @@ Record tester, time, environment, test data IDs, expected result, actual result,
 
 ### Daily
 
-- review health, error rate, provider alerts, quarantine age, failed emails, failed AI runs, rate-limit spikes, and recent privileged audit events;
+- review health, error rate, provider alerts, quarantine age, failed emails, failed AI runs, stale projection runs, scheduled-refresh results, rate-limit spikes, and recent privileged audit events;
 - investigate repeated reveal/download failures without exposing content;
 - confirm the retention cron ran with the expected deletion count.
 
@@ -373,7 +417,7 @@ Record tester, time, environment, test data IDs, expected result, actual result,
 
 ### Suspected evidence or privacy exposure
 
-1. Disable `file_uploads` and, if relevant, `ai_assistance`.
+1. Disable `file_uploads` and, if relevant, `ai_assistance` or `projection_ai`. Disable `venture_projections` only when projection calculation, authorization, audit, or disclosure integrity may be affected.
 2. Revoke affected grants, sessions, and credentials; signed links naturally expire within 60 seconds.
 3. Preserve immutable audit events, provider correlation IDs, and redacted infrastructure logs.
 4. Do not copy evidence content into tickets or chat.
@@ -382,7 +426,7 @@ Record tester, time, environment, test data IDs, expected result, actual result,
 
 ### Provider outage
 
-The UI should show deterministic safe fallbacks. Disable the affected feature if failures are persistent. Matching and readiness calculations must continue without AI. Uploads must remain unavailable when scanning is unavailable; never bypass quarantine.
+The UI should show deterministic safe fallbacks. Disable the affected feature if failures are persistent. Matching, readiness, and saved deterministic projections must continue without AI. Uploads must remain unavailable when scanning is unavailable; never bypass quarantine.
 
 ### Compromised secret
 
@@ -409,6 +453,12 @@ Revoke/rotate it at the provider, update only the affected Vercel environment, r
 | Venture missing from matches | Check founder consent, exclusions, thesis, and visibility | Correct the relevant source fact/consent and refresh |
 | AI control unavailable | Check `ai_assistance` and OpenAI config | Complete provider acceptance, redeploy, enable flag |
 | AI prose differs from score | Compare stored factor table | Trust deterministic factors; disable/report narrative issue |
+| Projection workspace unavailable | Check `venture_projections`, membership, and migration version | Apply/test the additive migration, redeploy, then enable the flag |
+| Result says assumption-based | Check verified count and date span | Add real, evidence-backed observations; never fabricate history |
+| Projection recalculation blocked | Check invalid/duplicate dates, bounds, stale/contradictory inputs, and weights | Correct the source record; the previous snapshot remains intact |
+| Investor cannot view a projection | Check recipient, match/introduction eligibility, expiry, and revocation | Create a new least-privilege share if the purpose remains valid |
+| Exact values remain hidden | Check exact visibility and accepted introduction/diligence context | Ask the founder for a separate expiring exact grant |
+| Projection AI unavailable | Check `projection_ai`, consent, model config, and authorized evidence IDs | Keep the deterministic result; fix provider/privacy gates before enabling AI |
 | Vercel project not listed | Check authenticated user/team | Stop; sign into or obtain access to the owner team |
 | Database types differ | Confirm applied staging migration | Run `npm run db:types`, review, and commit generated output |
 | RLS test fails | Preserve failing actor/table/policy context | Block release and fix via forward migration |

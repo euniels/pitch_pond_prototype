@@ -182,7 +182,7 @@ export default function Home() {
             </Link>
           </div>
           <div className="intelligence-teaser-cards">
-            <div><LineChart /><span>Now</span><strong>Startup progress scenarios</strong><small>Transparent ranges—not success odds</small></div>
+            <div><LineChart /><span>Now</span><strong>Goal attainment likelihood</strong><small>Percentages, P10/P50/P90 ranges, confidence, and sensitivity</small></div>
             <div><PackageCheck /><span>Future</span><strong>Microbusiness launch systems</strong><small>Ready-to-operate packages with verified assumptions</small></div>
             <div><Repeat2 /><span>Future</span><strong>SME continuity pathways</strong><small>Responsible ownership transition workflows</small></div>
           </div>

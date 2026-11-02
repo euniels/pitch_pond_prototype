@@ -155,6 +155,45 @@ export default async function Page() {
       : [];
   });
   const screeningMinutes = median(screeningDurations);
+  const { data: institutionalProjectionShares } = ventureIds.length
+    ? await supabase
+        .from("projection_shares")
+        .select("run_id,venture_id,expires_at,revoked_at")
+        .eq("recipient_id", user.id)
+        .in("venture_id", ventureIds)
+        .is("revoked_at", null)
+        .gt("expires_at", new Date().toISOString())
+    : { data: [] };
+  const institutionalProjections = await Promise.all(
+    (institutionalProjectionShares ?? []).map(async (share) => {
+      const { data } = await supabase.rpc("get_shared_projection", {
+        p_run_id: share.run_id,
+      });
+      return data && typeof data === "object" && !Array.isArray(data)
+        ? (data as Record<string, unknown>)
+        : null;
+    }),
+  );
+  const latestProjectionByVenture = new Map<string, Record<string, unknown>>();
+  for (const projection of institutionalProjections) {
+    if (projection && typeof projection.ventureId === "string")
+      latestProjectionByVenture.set(projection.ventureId, projection);
+  }
+  const canAggregateProjections = latestProjectionByVenture.size >= 3;
+  const cohortGoalLikelihood = canAggregateProjections
+    ? median(
+        [...latestProjectionByVenture.values()].map((projection) =>
+          Number(projection.probability ?? 0),
+        ),
+      )
+    : null;
+  const cohortProjectionConfidence = canAggregateProjections
+    ? median(
+        [...latestProjectionByVenture.values()].map((projection) =>
+          Number(projection.confidence ?? 0),
+        ),
+      )
+    : null;
 
   return (
     <WorkspaceFrame
@@ -202,7 +241,33 @@ export default async function Page() {
           <strong>{outcomeCount}</strong>
           <span>outcomes recorded</span>
         </div>
+        <div>
+          <BarChart3 />
+          <strong>
+            {cohortGoalLikelihood === null ? "—" : `${cohortGoalLikelihood}%`}
+          </strong>
+          <span>median goal likelihood</span>
+        </div>
+        <div>
+          <Clock3 />
+          <strong>
+            {cohortProjectionConfidence === null
+              ? "—"
+              : `${cohortProjectionConfidence}/100`}
+          </strong>
+          <span>projection confidence</span>
+        </div>
       </div>
+      {!canAggregateProjections && (
+        <div className="workspace-notice projection-aggregate-notice">
+          <BarChart3 />
+          <p>
+            Projection aggregates appear only after at least three cohort
+            ventures explicitly share current snapshots with you. Small groups
+            are suppressed to reduce re-identification risk.
+          </p>
+        </div>
+      )}
       <div className="workspace-columns">
         <section className="workspace-panel">
           <div className="panel-heading">

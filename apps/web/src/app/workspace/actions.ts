@@ -12,9 +12,13 @@ import {
   claimEvidenceLinkSchema,
   claimSchema,
   invitationSchema,
+  metricObservationSchema,
   milestoneSchema,
+  projectionGoalSchema,
+  projectionShareSchema,
   readinessSectionSchema,
   thesisSchema,
+  ventureMetricSchema,
   ventureSchema,
 } from "@/lib/schemas";
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -28,6 +32,248 @@ export type ActionState = {
 
 function fields(formData: FormData, names: string[]) {
   return Object.fromEntries(names.map((name) => [name, formData.get(name)]));
+}
+
+export async function createVentureMetricAction(
+  _: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const { supabase, user } = await requireUser();
+  const parsed = ventureMetricSchema.safeParse(
+    fields(formData, [
+      "ventureId",
+      "key",
+      "name",
+      "category",
+      "unit",
+      "direction",
+      "cadence",
+      "privacyClassification",
+    ]),
+  );
+  if (!parsed.success)
+    return {
+      ok: false,
+      message: "Review the metric definition.",
+      errors: parsed.error.flatten().fieldErrors,
+    };
+  const value = parsed.data;
+  const { error } = await supabase.from("venture_metrics").insert({
+    venture_id: value.ventureId,
+    key: value.key,
+    name: value.name,
+    category: value.category,
+    unit: value.unit,
+    direction: value.direction,
+    cadence: value.cadence,
+    privacy_classification: value.privacyClassification,
+    created_by: user.id,
+  });
+  if (error) return { ok: false, message: error.message };
+  revalidatePath("/workspace/founder/projections");
+  return { ok: true, message: "Operating metric created." };
+}
+
+export async function createMetricObservationAction(
+  _: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const { supabase, user } = await requireUser();
+  const parsed = metricObservationSchema.safeParse(
+    fields(formData, [
+      "ventureId",
+      "metricId",
+      "value",
+      "observedOn",
+      "verificationState",
+      "evidenceId",
+    ]),
+  );
+  if (!parsed.success)
+    return {
+      ok: false,
+      message: "Review the observation and its evidence status.",
+      errors: parsed.error.flatten().fieldErrors,
+    };
+  const value = parsed.data;
+  if (value.verificationState !== "self_reported" && !value.evidenceId)
+    return {
+      ok: false,
+      message: "Verified observations require a clean evidence item.",
+    };
+  if (value.observedOn > new Date().toISOString().slice(0, 10))
+    return { ok: false, message: "Actual observations cannot be future-dated." };
+  const { data: metric } = await supabase
+    .from("venture_metrics")
+    .select("unit")
+    .eq("id", value.metricId)
+    .eq("venture_id", value.ventureId)
+    .maybeSingle();
+  if (!metric)
+    return { ok: false, message: "The operating metric is unavailable." };
+  if (["php", "count", "months", "percent", "score"].includes(metric.unit) && value.value < 0)
+    return { ok: false, message: "This metric cannot contain negative actuals." };
+  if (["percent", "score"].includes(metric.unit) && value.value > 100)
+    return { ok: false, message: "Percentage and score actuals must be between 0 and 100." };
+  const { error } = await supabase.from("metric_observations").insert({
+    venture_id: value.ventureId,
+    metric_id: value.metricId,
+    value: value.value,
+    observed_on: value.observedOn,
+    source: value.evidenceId ? "evidence" : "manual",
+    verification_state: value.verificationState,
+    evidence_id: value.evidenceId || null,
+    created_by: user.id,
+  });
+  if (error) return { ok: false, message: error.message };
+  revalidatePath("/workspace/founder/projections");
+  return { ok: true, message: "Dated observation recorded." };
+}
+
+export async function createProjectionGoalAction(
+  _: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const { supabase, user } = await requireUser();
+  const parsed = projectionGoalSchema.safeParse(
+    fields(formData, [
+      "ventureId",
+      "metricId",
+      "label",
+      "baselineValue",
+      "targetValue",
+      "weight",
+      "targetDate",
+      "expectedMonthlyChange",
+      "monthlyVolatility",
+      "customerAcquisitionPerMonth",
+      "retentionPercent",
+      "monthlyBurnAmount",
+      "milestoneReliability",
+      "evidenceCadencePerMonth",
+    ]),
+  );
+  if (!parsed.success)
+    return {
+      ok: false,
+      message: "Review the goal target, weight, and assumptions.",
+      errors: parsed.error.flatten().fieldErrors,
+    };
+  const value = parsed.data;
+  const today = new Date();
+  const target = new Date(`${value.targetDate}T00:00:00.000Z`);
+  const maximum = new Date(today);
+  maximum.setUTCMonth(maximum.getUTCMonth() + 60);
+  if (target <= today || target > maximum)
+    return {
+      ok: false,
+      message: "Choose a future target date within 60 months.",
+    };
+  const { data: metric } = await supabase
+    .from("venture_metrics")
+    .select("unit,direction")
+    .eq("id", value.metricId)
+    .eq("venture_id", value.ventureId)
+    .maybeSingle();
+  if (!metric)
+    return { ok: false, message: "The operating metric is unavailable." };
+  if (
+    ["php", "count", "months", "percent", "score"].includes(metric.unit) &&
+    (value.baselineValue < 0 || value.targetValue < 0)
+  )
+    return { ok: false, message: "This metric cannot use negative baseline or target values." };
+  if (
+    ["percent", "score"].includes(metric.unit) &&
+    (value.baselineValue > 100 || value.targetValue > 100)
+  )
+    return { ok: false, message: "Percentage and score goals must remain within 0 to 100." };
+  if (
+    (metric.direction === "increase" && value.targetValue <= value.baselineValue) ||
+    (metric.direction === "decrease" && value.targetValue >= value.baselineValue)
+  )
+    return { ok: false, message: "The target must follow the metric's direction." };
+  const { error } = await supabase.from("projection_goals").insert({
+    venture_id: value.ventureId,
+    metric_id: value.metricId,
+    label: value.label,
+    baseline_value: value.baselineValue,
+    target_value: value.targetValue,
+    weight: value.weight,
+    target_date: value.targetDate,
+    scenario_inputs: {
+      expectedMonthlyChange: value.expectedMonthlyChange,
+      monthlyVolatility: value.monthlyVolatility,
+      customerAcquisitionPerMonth: value.customerAcquisitionPerMonth,
+      retentionPercent: value.retentionPercent,
+      monthlyBurnAmount: value.monthlyBurnAmount,
+      milestoneReliability: value.milestoneReliability,
+      evidenceCadencePerMonth: value.evidenceCadencePerMonth,
+    },
+    created_by: user.id,
+  });
+  if (error) return { ok: false, message: error.message };
+  revalidatePath("/workspace/founder/projections");
+  return { ok: true, message: "Projection goal created." };
+}
+
+export async function shareProjectionAction(
+  _: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const { supabase, user } = await requireUser();
+  const parsed = projectionShareSchema.safeParse(
+    fields(formData, [
+      "runId",
+      "ventureId",
+      "recipientId",
+      "visibility",
+      "matchId",
+      "introductionId",
+      "expiresAt",
+    ]),
+  );
+  if (!parsed.success)
+    return {
+      ok: false,
+      message: "Review the recipient, visibility, and expiry.",
+      errors: parsed.error.flatten().fieldErrors,
+    };
+  const value = parsed.data;
+  const expires = new Date(value.expiresAt);
+  const maximum = new Date(Date.now() + 90 * 86_400_000);
+  if (expires <= new Date() || expires > maximum)
+    return { ok: false, message: "Projection access must expire within 90 days." };
+  if (value.visibility === "exact" && !value.introductionId)
+    return {
+      ok: false,
+      message: "Exact financial values require an accepted introduction.",
+    };
+  const { error } = await supabase.from("projection_shares").insert({
+    run_id: value.runId,
+    venture_id: value.ventureId,
+    recipient_id: value.recipientId,
+    shared_by: user.id,
+    visibility: value.visibility,
+    match_id: value.matchId || null,
+    introduction_id: value.introductionId || null,
+    expires_at: value.expiresAt,
+  });
+  if (error) return { ok: false, message: error.message };
+  revalidatePath("/workspace/founder/projections");
+  return { ok: true, message: "Projection snapshot shared with an expiry." };
+}
+
+export async function revokeProjectionShareAction(formData: FormData) {
+  const { supabase } = await requireUser();
+  const shareId = String(formData.get("shareId") ?? "");
+  if (!/^[0-9a-f-]{36}$/i.test(shareId))
+    throw new Error("Invalid projection share.");
+  const { error } = await supabase
+    .from("projection_shares")
+    .update({ revoked_at: new Date().toISOString() })
+    .eq("id", shareId);
+  if (error) throw new Error("Projection access could not be revoked.");
+  revalidatePath("/workspace/founder/projections");
 }
 
 async function requireMfaPlatformAdmin() {

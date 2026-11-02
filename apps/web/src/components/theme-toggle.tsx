@@ -6,7 +6,7 @@ import { Moon, Sun } from "lucide-react";
 type Theme = "light" | "dark";
 
 function currentTheme(): Theme {
-  if (typeof document === "undefined") return "light";
+  if (typeof document === "undefined") return "dark";
   return document.documentElement.dataset.theme === "dark" ? "dark" : "light";
 }
 
@@ -21,7 +21,7 @@ export function ThemeToggle() {
       };
     },
     currentTheme,
-    () => "light" as Theme,
+    () => "dark" as Theme,
   );
 
   const toggleTheme = () => {

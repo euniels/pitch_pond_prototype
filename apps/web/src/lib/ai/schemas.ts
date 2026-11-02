@@ -38,7 +38,27 @@ export const matchNarrativeSchema = z.object({
   questions: z.array(z.string().max(240)).max(7),
 });
 
+export const projectionExplanationSchema = z.object({
+  summary: z.string().max(800),
+  positiveDrivers: z.array(z.string().max(260)).max(6),
+  negativeDrivers: z.array(z.string().max(260)).max(6),
+  sensitivity: z.array(z.string().max(260)).max(6),
+  missingOrStaleData: z.array(z.string().max(260)).max(8),
+  evidenceBackedRisks: z
+    .array(
+      z.object({
+        risk: z.string().max(300),
+        evidenceIds: z.array(z.string()).max(10),
+      }).strict(),
+    )
+    .max(8),
+  nextActions: z.array(z.string().max(260)).max(8),
+  investorQuestions: z.array(z.string().max(260)).max(8),
+  limitations: z.array(z.string().max(260)).max(6),
+}).strict();
+
 export type AiPurpose =
   | "readiness_review"
   | "evidence_summary"
-  | "match_explanation";
+  | "match_explanation"
+  | "projection_explanation";

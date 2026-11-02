@@ -4,6 +4,11 @@ import { WorkspaceFrame } from "@/components/workspace-frame";
 import { ActionForm } from "@/components/action-form";
 import { MatchBreakdown } from "@/components/match-breakdown";
 import { AiMatchNarrative } from "@/components/ai-match-narrative";
+import { AiProjectionExplanation } from "@/components/ai-projection-explanation";
+import {
+  ProjectionSnapshot,
+  type StoredForecastPoint,
+} from "@/components/projection-snapshot";
 import {
   createPrivateNoteAction,
   createDiligenceRequestAction,
@@ -36,6 +41,7 @@ export default async function Page() {
     { data: dispositions },
     { data: introductions },
     { data: diligence },
+    { data: projectionShares },
   ] = await Promise.all([
     supabase
       .from("investor_theses")
@@ -65,6 +71,12 @@ export default async function Page() {
       .from("diligence_requests")
       .select("id,introduction_id,title,status,due_at")
       .order("created_at", { ascending: false }),
+    supabase
+      .from("projection_shares")
+      .select("run_id,venture_id,visibility,expires_at,revoked_at")
+      .eq("recipient_id", user.id)
+      .is("revoked_at", null)
+      .gt("expires_at", new Date().toISOString()),
   ]);
   const seenVentures = new Set<string>();
   const matches = (matchRows ?? []).filter((match) => {
@@ -76,6 +88,21 @@ export default async function Page() {
   const dispositionByMatch = new Map(
     (dispositions ?? []).map((item) => [item.match_id, item.disposition]),
   );
+  const sharedProjectionResults = await Promise.all(
+    (projectionShares ?? []).map(async (share) => {
+      const { data } = await supabase.rpc("get_shared_projection", {
+        p_run_id: share.run_id,
+      });
+      return data && typeof data === "object" && !Array.isArray(data)
+        ? (data as Record<string, unknown>)
+        : null;
+    }),
+  );
+  const sharedProjectionByVenture = new Map<string, Record<string, unknown>>();
+  for (const projection of sharedProjectionResults) {
+    if (projection && typeof projection.ventureId === "string")
+      sharedProjectionByVenture.set(projection.ventureId, projection);
+  }
 
   return (
     <WorkspaceFrame
@@ -280,6 +307,16 @@ export default async function Page() {
                 mismatches: match.mismatches as string[],
                 blockedBy: [],
               };
+              const projection = sharedProjectionByVenture.get(match.venture_id);
+              const projectionSeries = Array.isArray(
+                projection?.exactSeries ?? projection?.indexedSeries,
+              )
+                ? ((projection?.exactSeries ??
+                    projection?.indexedSeries) as StoredForecastPoint[])
+                : [];
+              const projectionVisibility = String(
+                projection?.visibility ?? "indexed",
+              );
               return (
                 <article className="match-card" key={match.id}>
                   <div className="match-card-heading">
@@ -312,6 +349,66 @@ export default async function Page() {
                     </span>
                   </div>
                   <MatchBreakdown result={result} />
+                  {projection && (
+                    <div className="investor-projection-section">
+                      <div className="projection-permission-banner">
+                        <ShieldCheck />
+                        <div>
+                          <strong>Founder-shared projection</strong>
+                          <span>
+                            {projectionVisibility === "exact"
+                              ? "Exact values available through an accepted, expiring diligence grant."
+                              : "Financial values are indexed; identity and exact amounts remain protected."}
+                          </span>
+                        </div>
+                      </div>
+                      <ProjectionSnapshot
+                        label="Shared operating goal"
+                        unit={projectionVisibility === "exact" ? "custom" : "score"}
+                        probability={Number(projection.probability ?? 0)}
+                        confidence={Number(projection.confidence ?? 0)}
+                        inputKind={String(projection.inputKind ?? "assumption_based")}
+                        status={String(projection.statusBand ?? "watch")}
+                        scenario={String(projection.scenario ?? "baseline")}
+                        modelVersion={String(projection.modelVersion ?? "2026.2")}
+                        calculatedAt={String(projection.calculatedAt ?? new Date(0).toISOString())}
+                        expectedTargetDate={
+                          typeof projection.expectedTargetDate === "string"
+                            ? projection.expectedTargetDate
+                            : null
+                        }
+                        series={projectionSeries}
+                        sensitivity={
+                          projection.sensitivity &&
+                          typeof projection.sensitivity === "object" &&
+                          !Array.isArray(projection.sensitivity)
+                            ? (projection.sensitivity as Record<string, number>)
+                            : {}
+                        }
+                        drivers={
+                          Array.isArray(projection.drivers)
+                            ? projection.drivers.filter(
+                                (item): item is string => typeof item === "string",
+                              )
+                            : []
+                        }
+                        limitations={
+                          Array.isArray(projection.limitations)
+                            ? projection.limitations.filter(
+                                (item): item is string => typeof item === "string",
+                              )
+                            : []
+                        }
+                        indexed={projectionVisibility !== "exact"}
+                      >
+                        <AiProjectionExplanation
+                          runId={String(projection.id)}
+                          ventureId={match.venture_id}
+                          allowExactValues={projectionVisibility === "exact"}
+                        />
+                      </ProjectionSnapshot>
+                    </div>
+                  )}
                   <AiMatchNarrative
                     ventureId={match.venture_id}
                     matchId={match.id}

@@ -3,6 +3,7 @@ import {
   Building2,
   KeyRound,
   LayoutDashboard,
+  LineChart,
   ShieldCheck,
   Sprout,
   Target,
@@ -22,6 +23,12 @@ export function WorkspaceNav({ roles }: { roles: MembershipRole[] }) {
       href: "/workspace/founder",
       label: "Founder Studio",
       icon: Sprout,
+      show: roles.includes("founder"),
+    },
+    {
+      href: "/workspace/founder/projections",
+      label: "Venture projections",
+      icon: LineChart,
       show: roles.includes("founder"),
     },
     {

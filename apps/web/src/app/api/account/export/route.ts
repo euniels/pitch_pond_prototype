@@ -70,7 +70,17 @@ export async function GET() {
         .in("organization_id", organizationIds)
     : { data: [] };
   const ventureIds = (ventures.data ?? []).map((item) => item.id);
-  const [sections, claims, milestones, evidence, readiness] = ventureIds.length
+  const [
+    sections,
+    claims,
+    milestones,
+    evidence,
+    readiness,
+    ventureMetrics,
+    metricObservations,
+    projectionGoals,
+    projectionRuns,
+  ] = ventureIds.length
     ? await Promise.all([
         supabase
           .from("venture_sections")
@@ -88,8 +98,35 @@ export async function GET() {
           .from("readiness_snapshots")
           .select("*")
           .in("venture_id", ventureIds),
+        supabase.from("venture_metrics").select("*").in("venture_id", ventureIds),
+        supabase
+          .from("metric_observations")
+          .select("*")
+          .in("venture_id", ventureIds),
+        supabase
+          .from("projection_goals")
+          .select("*")
+          .in("venture_id", ventureIds),
+        supabase
+          .from("projection_runs")
+          .select("*")
+          .in("venture_id", ventureIds),
       ])
-    : [{ data: [] }, { data: [] }, { data: [] }, { data: [] }, { data: [] }];
+    : [
+        { data: [] },
+        { data: [] },
+        { data: [] },
+        { data: [] },
+        { data: [] },
+        { data: [] },
+        { data: [] },
+        { data: [] },
+        { data: [] },
+      ];
+  const { data: projectionShares } = await supabase
+    .from("projection_shares")
+    .select("*")
+    .or(`recipient_id.eq.${auth.user.id},shared_by.eq.${auth.user.id}`);
   return NextResponse.json(
     {
       exportedAt: new Date().toISOString(),
@@ -102,6 +139,11 @@ export async function GET() {
       milestones: milestones.data,
       evidenceMetadata: evidence.data,
       readinessSnapshots: readiness.data,
+      ventureMetrics: ventureMetrics.data,
+      metricObservations: metricObservations.data,
+      projectionGoals: projectionGoals.data,
+      projectionRuns: projectionRuns.data,
+      projectionShares,
       introductions: participantIntroductions.data,
       investorTheses: theses.data,
       privateNotes: notes.data,

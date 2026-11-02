@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     template: "%s · PitchPond",
   },
   description:
-    "An evidence-first venture-readiness and explainable matching platform for Filipino founders, mentors, investors, and startup programs.",
+    "An evidence-first venture-readiness, goal forecasting, and explainable matching platform for Filipino founders, mentors, investors, and startup programs.",
   applicationName: "PitchPond",
   keywords: [
     "venture readiness",
@@ -34,6 +34,8 @@ export const metadata: Metadata = {
     "CALABARZON",
     "investor matching",
     "evidence vault",
+    "startup projections",
+    "goal attainment likelihood",
   ],
   openGraph: {
     title: "PitchPond — Fundability before fundraising",
@@ -50,7 +52,7 @@ export const dynamic = "force-dynamic";
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#061525",
+  themeColor: "#031a14",
   colorScheme: "light dark",
 };
 
@@ -58,7 +60,7 @@ export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const nonce = (await headers()).get("x-nonce") ?? undefined;
-  const themeScript = `try{const stored=localStorage.getItem("pitchpond-theme");const theme=stored==="dark"||stored==="light"?stored:(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme}catch{document.documentElement.dataset.theme="light"}`;
+  const themeScript = `try{const stored=localStorage.getItem("pitchpond-theme");const theme=stored==="dark"||stored==="light"?stored:"dark";document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme}catch{document.documentElement.dataset.theme="dark"}`;
   return (
     <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>

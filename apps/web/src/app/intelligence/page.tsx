@@ -6,7 +6,7 @@ import { VentureProjectionLab } from "@/components/venture-projection-lab";
 export const metadata = {
   title: "Venture intelligence",
   description:
-    "Transparent, assumption-based venture progress scenarios and responsible future entrepreneurship pathways from PitchPond.",
+    "Evidence-backed goal attainment likelihoods, transparent forecast ranges, and responsible AI explanations from PitchPond.",
 };
 
 export default function Page() {
@@ -18,13 +18,13 @@ export default function Page() {
           <div>
             <span className="eyebrow light"><BrainCircuit />Venture intelligence</span>
             <h1>See the trajectory.<br /><em>Keep judgment human.</em></h1>
-            <p>PitchPond combines evidence-backed readiness, explainable matching, operating scenarios, and consented AI assistance so founders can track progress and supporters can ask better questions.</p>
+            <p>PitchPond combines evidence-backed readiness, explainable matching, deterministic goal forecasts, and consented AI explanations so founders can track measurable progress and supporters can ask better questions.</p>
             <div className="hero-actions"><Link className="button button-lime button-large" href="#projection-lab">Try the projection lab <ArrowRight /></Link><Link className="button button-glass button-large" href="/responsible-ai">Responsible AI</Link></div>
           </div>
           <div className="intelligence-principles">
-            <div><LineChart /><span>Projects operating progress</span><strong>Readiness · evidence · milestones</strong></div>
-            <div><BadgeCheck /><span>Explains every result</span><strong>Assumptions · factors · uncertainty</strong></div>
-            <div><ShieldCheck /><span>Never produces</span><strong>Success odds · investment verdicts</strong></div>
+            <div><LineChart /><span>Estimates declared goals</span><strong>6 months · 1 year · up to 3 years</strong></div>
+            <div><BadgeCheck /><span>Explains every percentage</span><strong>P10/P50/P90 · confidence · sensitivity</strong></div>
+            <div><ShieldCheck /><span>Never produces</span><strong>Company-success claims · investment verdicts</strong></div>
           </div>
         </div>
       </section>
@@ -38,7 +38,7 @@ export default function Page() {
       </section>
 
       <section className="intelligence-cta">
-        <div className="shell"><span className="eyebrow light">Pilot before prediction</span><h2>Test the decisions, assumptions, and safeguards with real users.</h2><p>The first pilot remains focused on venture readiness and qualified introductions. Future pathways move forward only after separate user, operational, privacy, and legal validation.</p><Link className="button button-lime button-large" href="/pilot">Apply for the pilot <ArrowRight /></Link></div>
+        <div className="shell"><span className="eyebrow light">Measure before judgment</span><h2>Make every forecast reviewable, permissioned, and useful.</h2><p>Goal likelihood is distinct from company survival, fundraising success, and investment return. The pilot validates data quality, decision usefulness, and safeguards before external reliance.</p><Link className="button button-lime button-large" href="/pilot">Apply for the pilot <ArrowRight /></Link></div>
       </section>
     </main>
   );

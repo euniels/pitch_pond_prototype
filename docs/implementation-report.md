@@ -2,11 +2,11 @@
 
 **Release branch:** `feat/fundability-pilot`
 
-**Application commit:** `3b2c5dd`
+**Application baseline:** `ea6e030`; projection upgrade is on this release branch
 
 **Legacy preservation branch:** `backup/pre-fundability-rebuild-20261011` at `ea889f9`
 
-**Report date:** 11 October 2026
+**Report updated:** 3 November 2026
 
 **Intended production URL:** `https://pitchpondprototype.vercel.app`
 
@@ -17,6 +17,8 @@ The crowdfunding prototype has been rebuilt in this repository as an invitation-
 Production promotion is **not complete**. The Vercel CLI on this workstation is authenticated as `gershancg-8358` in `Gershan Carl Guerrero Bon's projects`; that team does not contain the `pitchpondprototype` project, and this repository has no `.vercel/project.json`. The GitHub remote also rejects this account with HTTP 403. Creating a different Vercel project would break the requirement to preserve the existing project identity and URL, so no unrelated project has been overwritten.
 
 The Supabase staging and production projects and the live OpenAI, attachment-scanner, Resend, SMTP, and operational credentials are also not available in this workspace. Consequently, cloud database migrations, pgTAP against the target databases, real invitation email, real scanning, real AI, and authenticated production acceptance journeys remain release gates. Feature flags default to safe values: uploads and AI are disabled until those integrations pass acceptance.
+
+The AI-assisted Goal Attainment Likelihood upgrade is documented in full in `docs/projection-upgrade-report.md`. It adds the authenticated deterministic projection engine, evidence staging, immutable runs, indexed/exact sharing, investor/institution views, projection AI explanation contract, scheduled refresh, deep-pond dark default, and updated validation evidence. Where this earlier report describes the prior public scenario prototype, the projection upgrade report is authoritative.
 
 ## Scope delivered
 
@@ -46,7 +48,7 @@ Implemented routes:
 | `/founder-studio` | Founder value proposition and nine-dimension workflow |
 | `/evidence-vault` | Private evidence lifecycle and permission model |
 | `/matching` | Deterministic matching and Blind First Look explanation |
-| `/intelligence` | Interactive assumption-based progress projections and future entrepreneurship pathways |
+| `/intelligence` | Interactive synthetic Goal Attainment Likelihood, forecast bands, confidence, scenarios, and future entrepreneurship pathways |
 | `/institutions` | Cohort, review, introduction, and measurement proposition |
 | `/pricing` | Indicative pilot plans without checkout |
 | `/pilot` | Pilot eligibility and application form |
@@ -78,7 +80,7 @@ Two longer-term concepts are represented as future validation pathways rather th
 
 Both reuse the evidence, readiness, permissions, matching, consent, and audit foundations. Neither currently lists businesses, sells packages, intermediates a sale, holds money, executes a transfer, or guarantees income.
 
-An accessible header toggle provides light and dark themes. The selection persists only in local browser storage, honors the operating-system preference for first-time visitors, is applied before first paint under the nonce-based Content Security Policy, and is covered by desktop/mobile persistence and axe checks. Responsive rules include wide-screen, tablet, phone, narrow-phone, landscape, coarse-pointer, reduced-motion, and increased-contrast behavior.
+An accessible header toggle provides light and dark themes. Dark is the first-visit default and the selection persists only in local browser storage. It is applied before first paint under the nonce-based Content Security Policy and is covered by desktop/mobile persistence and axe checks. Responsive rules include wide-screen, tablet, phone, narrow-phone, landscape, coarse-pointer, reduced-motion, and increased-contrast behavior.
 
 ### Authentication and memberships
 
@@ -163,7 +165,7 @@ Administrative actions cannot silently modify readiness or compatibility results
 
 ## AI contract
 
-The server-side OpenAI Responses API integration defaults to the environment-configured `gpt-6-astra` model. It has three narrow purposes: readiness-gap suggestions, clean-evidence summaries, and match-factor narratives.
+The server-side OpenAI Responses API integration defaults to the environment-configured `gpt-6-astra` model. It has four narrow purposes: readiness-gap suggestions, clean-evidence summaries, match-factor narratives, and immutable projection explanations.
 
 Controls include:
 
@@ -187,6 +189,7 @@ The additive migration defines identity/tenancy, founder, matching, institution,
 - `cohorts`, `cohort_ventures`, `reviewer_assignments`;
 - `introductions`, `diligence_requests`, `document_access_grants`, `notes`, `notifications`;
 - `consent_records`, `ai_runs`, `audit_events`, `product_events`, `feature_flags`, `pilot_applications`, `rate_limit_events`.
+- `venture_metrics`, `metric_observations`, `projection_goals`, `goal_evidence_links`, `projection_model_versions`, `projection_runs`, `projection_shares`.
 
 RLS is enabled on every exposed public table. Policies separate venture ownership, assigned reviews, eligible supporter matches, institution cohort scope, introduction participation, and evidence grants. Anonymous access to venture, thesis, evidence, match, audit, and cohort analytics is denied. The service-role client exists only in server modules. Audit records are immutable at the database trigger level.
 
@@ -198,7 +201,7 @@ RLS is enabled on every exposed public table. Policies separate venture ownershi
 - Route Handlers for auth callback, invite flow, upload lifecycle, signed download/delete, AI, pilot applications, exports, deletion, retention, and health;
 - nonce-based Content Security Policy, security headers, origin checks, redirect allowlist, authenticated-user rate limiting, and safe text rendering;
 - Supabase Auth/Postgres/Storage, OpenAI Responses, Resend, and an AttachmentScanner-compatible adapter;
-- Vercel cron definition for daily retention at 03:00 UTC.
+- Vercel cron definitions for daily retention at 03:00 UTC and stale projection refresh at 04:00 UTC.
 
 The health endpoint reports application readiness without returning secrets. Provider credentials are validated server-side and are never intentionally sent to browser bundles.
 
@@ -208,7 +211,7 @@ Completed locally on the release source:
 
 | Check | Result |
 | --- | --- |
-| Vitest unit suites | 12 files, 45 tests passed |
+| Vitest unit suites | 12 files, 62 tests passed |
 | ESLint | Passed |
 | TypeScript `tsc --noEmit` | Passed |
 | Next.js production build | Passed |
@@ -216,13 +219,13 @@ Completed locally on the release source:
 | Responsive overflow | Passed at 320, 375, 768, 1024, and 1440 px |
 | Keyboard and automated accessibility | No serious or critical Axe findings |
 | Lighthouse homepage production build | Performance 0.91, Accessibility 1.00, Best Practices 0.96, SEO 1.00 |
-| Production dependency audit | 0 known vulnerabilities at high threshold |
+| Production dependency audit | Blocked: Next.js 16.4.0 has a critical advisory; dedicated security upgrade required before promotion |
 | Browser bundle secret scan | No server credential names/values found |
 | Staged-diff secret scan | Clear |
 | Retired crowdfunding-language check | Clear in active sources and rendered-page assertion |
 | `git diff --check` | Clean |
 
-The CI workflow repeats dependency audit, unit, lint, type, build, Playwright, Lighthouse, Supabase setup, and pgTAP RLS tests. The two pgTAP files contain 33 assertions across owner, unrelated user, reviewer, investor, institution, administrator, anonymous, grant-expiry/revocation, constraints, and audit immutability cases.
+The CI workflow repeats dependency audit, unit, lint, type, build, Playwright, Lighthouse, Supabase setup, and pgTAP RLS tests. The projection pgTAP file adds 27 assertions covering ownership, unrelated and anonymous denial, indexed/exact investor visibility, expiry/revocation, value/date bounds, direction enforcement, and immutable projection/model history.
 
 Not yet executable without external infrastructure:
 

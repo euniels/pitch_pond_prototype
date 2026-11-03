@@ -6,7 +6,7 @@ test("public value proposition is complete and contains no crowdfunding language
 }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Become fundable",
+    "Fundability before fundraising",
   );
   await expect(
     page.getByText("Measured pilot—not vanity metrics"),
@@ -135,19 +135,19 @@ test("venture intelligence recalculates scenarios and switches perspectives", as
   ).toBeVisible();
 });
 
-test("theme choice persists and dark mode remains accessible", async ({ page }) => {
-  await page.emulateMedia({ colorScheme: "light" });
+test("public light default and explicit dark choice persist accessibly", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "dark" });
   await page.goto("/");
-  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
-  const toggle = page.getByRole("button", { name: "Use light mode" });
-  await toggle.click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  const toggle = page.getByRole("button", { name: "Use dark mode" });
+  await toggle.click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await expect(
-    page.getByRole("button", { name: "Use dark mode" }),
+    page.getByRole("button", { name: "Use light mode" }),
   ).toBeVisible();
 
   await page.reload();
-  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   const results = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
     .analyze();
@@ -156,6 +156,25 @@ test("theme choice persists and dark mode remains accessible", async ({ page }) 
       ["serious", "critical"].includes(item.impact ?? ""),
     ),
   ).toEqual([]);
+});
+
+test("compact navigation opens, identifies the current route, and closes with Escape", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 768, height: 900 });
+  await page.goto("/pricing");
+  const trigger = page.locator(".mobile-menu-trigger");
+  await trigger.click();
+  await expect(trigger).toHaveAttribute("aria-expanded", "true");
+  await expect(page.getByRole("navigation", { name: "Mobile navigation" })).toBeVisible();
+  await expect(
+    page
+      .getByRole("navigation", { name: "Mobile navigation" })
+      .getByRole("link", { name: "Pricing", exact: true }),
+  ).toHaveAttribute("aria-current", "page");
+  await page.keyboard.press("Escape");
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
+  await expect(trigger).toBeFocused();
 });
 
 test("key public routes do not overflow at release breakpoints", async ({
@@ -188,7 +207,7 @@ test("primary navigation and calls to action are keyboard reachable", async ({
   const firstFocus = await page.evaluate(() => document.activeElement?.tagName);
   expect(firstFocus).toBe("A");
   const primaryCta = page
-    .locator("#main-content")
+    .getByRole("main")
     .getByRole("link", { name: "Join the pilot" });
   await expect(primaryCta).toBeVisible();
   await primaryCta.focus();

@@ -7,12 +7,94 @@ export const navItems = [
   { href: "/pricing", label: "Pricing" },
 ];
 
+export const footerGroups = [
+  {
+    title: "Platform",
+    links: [
+      ["How it works", "/how-it-works"],
+      ["Founder Studio", "/founder-studio"],
+      ["Evidence Vault", "/evidence-vault"],
+      ["Explainable matching", "/matching"],
+      ["Venture intelligence", "/intelligence"],
+    ],
+  },
+  {
+    title: "Pilot",
+    links: [
+      ["Institutions", "/institutions"],
+      ["Pricing", "/pricing"],
+      ["Apply", "/pilot"],
+      ["Sign in", "/sign-in"],
+    ],
+  },
+  {
+    title: "Trust",
+    links: [
+      ["Responsible AI", "/responsible-ai"],
+      ["Privacy", "/privacy"],
+      ["Terms", "/terms"],
+      ["Accessibility", "/accessibility"],
+    ],
+  },
+] as const;
+
 export const pilotTargets = [
   { value: "15–20", label: "founders in the concierge pilot" },
   { value: "3–5", label: "qualified introductions to validate" },
   { value: "1", label: "institutional pilot partner" },
   { value: "0", label: "paid influence on readiness or matching" },
 ];
+
+export const featuredVentures = [
+  {
+    slug: "amihan-cold-chain",
+    name: "Amihan Cold Chain",
+    summary: "Solar-powered cold storage for small farming cooperatives.",
+    sector: "Climate technology",
+    stage: "Early revenue",
+    location: "Calamba, Laguna",
+    readiness: 85,
+    evidence: 22,
+    image: {
+      src: "/images/ventures/amihan-cold-chain.webp",
+      alt: "A fictional Filipino cold-chain founder inspecting vegetables beside a solar-powered farm cold room.",
+      position: "center",
+      tone: "aqua",
+    },
+  },
+  {
+    slug: "luntian-loop-materials",
+    name: "Luntian Loop Materials",
+    summary: "Turns recovered flexible packaging into durable building panels.",
+    sector: "Circular economy",
+    stage: "Pilot",
+    location: "Antipolo, Rizal",
+    readiness: 74,
+    evidence: 17,
+    image: {
+      src: "/images/ventures/luntian-loop-materials.webp",
+      alt: "A fictional Filipina materials founder examining a construction panel made from recovered plastic.",
+      position: "center",
+      tone: "lime",
+    },
+  },
+  {
+    slug: "lakbay-health-logistics",
+    name: "Lakbay Health Logistics",
+    summary: "Coordinates temperature-safe diagnostic routes for rural clinics.",
+    sector: "Health logistics",
+    stage: "Prototype",
+    location: "Batangas City",
+    readiness: 67,
+    evidence: 13,
+    image: {
+      src: "/images/ventures/lakbay-health-logistics.webp",
+      alt: "A fictional rural-health coordinator preparing an insulated diagnostic carrier beside a clinic vehicle.",
+      position: "center",
+      tone: "blue",
+    },
+  },
+] as const;
 
 export const readinessDimensions = [
   ["Problem", "Define the customer pain and who experiences it."],

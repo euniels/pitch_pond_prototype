@@ -1,36 +1,6 @@
 import Link from "next/link";
 import { Brand } from "./brand";
-
-const groups = [
-  {
-    title: "Platform",
-    links: [
-      ["How it works", "/how-it-works"],
-      ["Founder Studio", "/founder-studio"],
-      ["Evidence Vault", "/evidence-vault"],
-      ["Explainable matching", "/matching"],
-      ["Venture intelligence", "/intelligence"],
-    ],
-  },
-  {
-    title: "Pilot",
-    links: [
-      ["Institutions", "/institutions"],
-      ["Pricing", "/pricing"],
-      ["Apply", "/pilot"],
-      ["Sign in", "/sign-in"],
-    ],
-  },
-  {
-    title: "Trust",
-    links: [
-      ["Responsible AI", "/responsible-ai"],
-      ["Privacy", "/privacy"],
-      ["Terms", "/terms"],
-      ["Accessibility", "/accessibility"],
-    ],
-  },
-] as const;
+import { footerGroups } from "@/lib/content";
 
 export function SiteFooter() {
   return (
@@ -47,7 +17,7 @@ export function SiteFooter() {
             investment advice.
           </small>
         </div>
-        {groups.map((group) => (
+        {footerGroups.map((group) => (
           <div className="footer-link-group" key={group.title}>
             <h2>{group.title}</h2>
             {group.links.map(([label, href]) => (

@@ -3,6 +3,7 @@ import { Brand } from "./brand";
 import { navItems } from "@/lib/content";
 import { getOptionalUser } from "@/lib/auth";
 import { ThemeToggle } from "./theme-toggle";
+import { MobileNavigation } from "./mobile-navigation";
 
 export async function SiteHeader() {
   const user = await getOptionalUser();
@@ -31,23 +32,11 @@ export async function SiteHeader() {
           >
             {user ? "Open workspace" : "Join the pilot"}
           </Link>
-          <details className="mobile-menu">
-            <summary aria-label="Open navigation">
-              <span />
-              <span />
-              <span />
-            </summary>
-            <nav aria-label="Mobile navigation">
-              {navItems.map((item) => (
-                <Link key={item.href} href={item.href}>
-                  {item.label}
-                </Link>
-              ))}
-              <Link href={user ? "/workspace" : "/sign-in"}>
-                {user ? "Workspace" : "Sign in"}
-              </Link>
-            </nav>
-          </details>
+          <MobileNavigation
+            items={[...navItems]}
+            accountHref={user ? "/workspace" : "/sign-in"}
+            accountLabel={user ? "Workspace" : "Sign in"}
+          />
         </div>
       </div>
     </header>

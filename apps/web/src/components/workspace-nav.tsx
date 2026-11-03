@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Building2,
   KeyRound,
@@ -10,8 +13,11 @@ import {
 } from "lucide-react";
 import type { MembershipRole } from "@/lib/domain";
 import { signOutAction } from "@/app/workspace/actions";
+import { Brand } from "./brand";
+import { ThemeToggle } from "./theme-toggle";
 
 export function WorkspaceNav({ roles }: { roles: MembershipRole[] }) {
+  const pathname = usePathname();
   const entries = [
     {
       href: "/workspace",
@@ -60,11 +66,27 @@ export function WorkspaceNav({ roles }: { roles: MembershipRole[] }) {
   ];
   return (
     <aside className="workspace-nav">
+      <div className="workspace-nav-brand">
+        <Brand compact />
+        <ThemeToggle />
+      </div>
       <nav aria-label="Workspace navigation">
         {entries
           .filter((entry) => entry.show)
           .map(({ href, label, icon: Icon }) => (
-            <Link key={href} href={href}>
+            <Link
+              key={href}
+              href={href}
+              aria-current={
+                href === "/workspace"
+                  ? pathname === href
+                    ? "page"
+                    : undefined
+                  : pathname.startsWith(href)
+                    ? "page"
+                    : undefined
+              }
+            >
               <Icon />
               {label}
             </Link>

@@ -3,8 +3,7 @@ import { Manrope, Sora } from "next/font/google";
 import { headers } from "next/headers";
 import "./globals.css";
 import "./visual-system.css";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
+import "./redesign.css";
 
 const bodyFont = Manrope({
   subsets: ["latin"],
@@ -60,7 +59,7 @@ export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const nonce = (await headers()).get("x-nonce") ?? undefined;
-  const themeScript = `try{const stored=localStorage.getItem("pitchpond-theme");const theme=stored==="dark"||stored==="light"?stored:"dark";document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme}catch{document.documentElement.dataset.theme="dark"}`;
+  const themeScript = `try{const stored=localStorage.getItem("pitchpond-theme");const routeDefault=location.pathname.startsWith("/workspace")?"dark":"light";const theme=stored==="dark"||stored==="light"?stored:routeDefault;document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme}catch{document.documentElement.dataset.theme="light"}`;
   return (
     <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
@@ -70,9 +69,7 @@ export default async function RootLayout({
         <a className="skip-link" href="#main-content">
           Skip to content
         </a>
-        <SiteHeader />
         <div id="main-content">{children}</div>
-        <SiteFooter />
       </body>
     </html>
   );

@@ -4,7 +4,10 @@ const nextConfig: NextConfig = {
   turbopack: { root: process.cwd() },
   allowedDevOrigins: ["127.0.0.1"],
   poweredByHeader: false,
-  experimental: { serverActions: { bodySizeLimit: "10mb" } },
+  experimental: {
+    agentUpgrade: "security",
+    serverActions: { bodySizeLimit: "10mb" },
+  },
   async headers() {
     return [
       {

@@ -6,7 +6,7 @@
 
 ## Delivered experience
 
-PitchPond now presents venture readiness as an authored visual story rather than a repeated SaaS card grid. The public product defaults to deep cinematic navy and forest, uses Newsreader for narrative statements, retains Sora and Manrope for product and data interfaces, and balances fictional Filipino venture photography with code-owned dashboards, charts, and evidence flows.
+PitchPond now presents venture readiness as an authored visual story rather than a repeated SaaS card grid. The public product defaults to deep cinematic navy and forest, uses Cormorant Garamond for majestic narrative statements, retains Sora and Manrope for product and data interfaces, and balances fictional Filipino venture photography with code-owned dashboards, charts, and evidence flows. The public canvas expands to a 1440px cinematic frame with 24px desktop and 16px mobile gutters, while operational content retains controlled reading widths.
 
 The homepage contains a full-bleed founder hero, an inspectable synthetic projection, four credibility principles, six venture field notes, three role narratives, a forecasting stage, an Evidence Vault journey, the interactive product tour, honest pilot targets, and a network-led final call to action. Founder, Evidence, Matching, Institution, How It Works, and Responsible AI pages now use distinct image-led editorial heroes and an asymmetric workflow system. Demo records include photographic operating context; Intelligence uses the pond-network visual; sign-in uses a focused cinematic split shell; workspaces receive role-aware header imagery without changing authorization or data behavior.
 

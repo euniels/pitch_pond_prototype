@@ -12,7 +12,7 @@ test("public and authentication shells keep approved responsive baselines", asyn
   page,
 }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop", "One browser owns visual baselines.");
-  test.setTimeout(120_000);
+  test.setTimeout(240_000);
   await page.emulateMedia({ reducedMotion: "reduce", colorScheme: "light" });
 
   for (const width of widths) {

@@ -42,9 +42,10 @@ export function ThemeToggle() {
       title={isDark ? "Use light mode" : "Use dark mode"}
     >
       <span className="theme-toggle-track" aria-hidden="true">
-        <Sun className="theme-sun" />
-        <Moon className="theme-moon" />
-        <span className="theme-toggle-thumb" />
+        <span className="theme-toggle-icon">
+          {isDark ? <Moon /> : <Sun />}
+        </span>
+        <span className="theme-toggle-label">{isDark ? "Dark" : "Light"}</span>
       </span>
     </button>
   );

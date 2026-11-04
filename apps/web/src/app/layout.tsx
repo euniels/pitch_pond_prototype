@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope, Newsreader, Sora } from "next/font/google";
+import { Cormorant_Garamond, Manrope, Sora } from "next/font/google";
 import { headers } from "next/headers";
 import "./globals.css";
 import "./visual-system.css";
@@ -16,9 +16,10 @@ const displayFont = Sora({
   variable: "--font-display",
   display: "swap",
 });
-const editorialFont = Newsreader({
+const editorialFont = Cormorant_Garamond({
   subsets: ["latin"],
   variable: "--font-editorial",
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 

@@ -16,7 +16,7 @@ Public pages use a bright editorial canvas with white and soft-gray bands, navy 
 - A 1200-pixel content shell, responsive twelve-column desktop composition, and route-appropriate spacing at desktop, tablet, and mobile sizes.
 - Sora display typography and Manrope body/interface typography with controlled line lengths and fluid responsive scales.
 - Semantic light and dark tokens, 14–18 pixel card radii, restrained shadows, 44-pixel minimum interactive targets, visible focus rings, and WCAG AA color contrast.
-- Public routes default to light mode; workspaces default to dark mode. The stored `pitchpond-theme` preference overrides route defaults without a hydration flash.
+- Public routes and workspaces now default to deep-pond dark mode. The stored `pitchpond-theme` preference overrides that default without a hydration flash.
 - A white sticky marketing header, focused authentication shell, persistent dark workspace shell, and structured dark footer.
 - Accessible mobile navigation with `aria-expanded`, Escape and outside-click closure, focus restoration, active-route state, and full-size touch targets.
 - Subtle section arrival, card lift, control feedback, and forecast-path motion. Reduced-motion preference disables transforms and non-essential animation.

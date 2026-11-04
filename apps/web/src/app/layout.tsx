@@ -1,9 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope, Sora } from "next/font/google";
+import { Manrope, Newsreader, Sora } from "next/font/google";
 import { headers } from "next/headers";
 import "./globals.css";
 import "./visual-system.css";
 import "./redesign.css";
+import "./cinematic.css";
 
 const bodyFont = Manrope({
   subsets: ["latin"],
@@ -13,6 +14,11 @@ const bodyFont = Manrope({
 const displayFont = Sora({
   subsets: ["latin"],
   variable: "--font-display",
+  display: "swap",
+});
+const editorialFont = Newsreader({
+  subsets: ["latin"],
+  variable: "--font-editorial",
   display: "swap",
 });
 
@@ -59,13 +65,13 @@ export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const nonce = (await headers()).get("x-nonce") ?? undefined;
-  const themeScript = `try{const stored=localStorage.getItem("pitchpond-theme");const routeDefault=location.pathname.startsWith("/workspace")?"dark":"light";const theme=stored==="dark"||stored==="light"?stored:routeDefault;document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme}catch{document.documentElement.dataset.theme="light"}`;
+  const themeScript = `try{const stored=localStorage.getItem("pitchpond-theme");const routeDefault="dark";const theme=stored==="dark"||stored==="light"?stored:routeDefault;document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme}catch{document.documentElement.dataset.theme="dark"}`;
   return (
     <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <script nonce={nonce} dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className={`${bodyFont.variable} ${displayFont.variable}`}>
+      <body className={`${bodyFont.variable} ${displayFont.variable} ${editorialFont.variable}`}>
         <a className="skip-link" href="#main-content">
           Skip to content
         </a>

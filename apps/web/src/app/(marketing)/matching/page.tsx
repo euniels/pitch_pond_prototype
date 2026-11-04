@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { ContentPage } from "@/components/content-page";
 import { contentPages } from "@/lib/content";
+import { editorialMedia } from "@/lib/editorial-media";
 
 export const metadata = { title: "Explainable matching" };
 const icons = [
@@ -23,6 +24,8 @@ export default function Page() {
   return (
     <ContentPage
       {...copy}
+      media={editorialMedia.investor}
+      chapterLabel="From thesis to explainable fit"
       items={copy.items.map((item, index) => ({
         ...item,
         icon: icons[index]!,

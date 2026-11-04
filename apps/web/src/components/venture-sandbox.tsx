@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useMemo, useState } from "react";
 import {
   ArrowRight, BadgeCheck, Bookmark, Building2, Check, CheckCircle2, Eye,
@@ -13,6 +14,7 @@ import {
   sampleVentures,
   type SampleVenture,
 } from "@/lib/sample-ventures";
+import { ventureMediaById } from "@/lib/editorial-media";
 
 type DetailTab = "overview" | "readiness" | "evidence" | "milestones";
 type SortOption = "match" | "readiness" | "evidence" | "name";
@@ -124,8 +126,10 @@ export function VentureSandbox({ preview = false }: { preview?: boolean }) {
             const identity = displayIdentity(venture, blind && !preview);
             const saved = savedIds.includes(venture.id);
             const comparing = compareIds.includes(venture.id);
+            const media = ventureMediaById[venture.id];
             return <article className="venture-sample-card" data-tone={venture.tone} data-selected={!preview && selected?.id === venture.id} key={venture.id}>
               <button className="venture-card-open" type="button" aria-pressed={!preview && selected?.id === venture.id} onClick={() => inspect(venture.id)}>
+                {media && <span className="venture-card-media"><Image src={media.src} alt={blind && !preview ? "Fictional venture operations shown without identity cues." : media.alt} fill sizes={preview ? "(max-width: 760px) 100vw, 33vw" : "(max-width: 760px) 100vw, 300px"} style={{ objectPosition: media.position }} /></span>}
                 <span className="sample-card-topline"><span className="venture-monogram">{identity.monogram}</span><span className="synthetic-pill"><Sparkles /> Synthetic</span></span>
                 <span className="venture-card-copy"><strong>{identity.name}</strong><span>{venture.tagline}</span></span>
                 <span className="venture-tags"><span>{venture.sector}</span><span>{venture.stage}</span></span>
@@ -158,8 +162,10 @@ export function VentureSandbox({ preview = false }: { preview?: boolean }) {
 
 function VentureDetail({ venture, blind, activeTab, onTabChange }: { venture: SampleVenture; blind: boolean; activeTab: DetailTab; onTabChange: (tab: DetailTab) => void }) {
   const identity = displayIdentity(venture, blind);
+  const media = ventureMediaById[venture.id];
   const tabs: readonly [DetailTab, string][] = [["overview", "Overview"], ["readiness", "Readiness"], ["evidence", "Evidence"], ["milestones", "Milestones"]];
   return <aside className="venture-detail" id="sample-venture-detail" aria-live="polite">
+    {media && <div className="venture-detail-media"><Image src={media.src} alt={blind ? "Fictional venture operations shown without identity cues." : media.alt} fill sizes="(max-width: 760px) 100vw, 430px" style={{ objectPosition: media.position }} /><span><ShieldCheck /> Synthetic operating scene</span></div>}
     <div className="venture-detail-heading"><div><span className="eyebrow">Selected synthetic record</span><h3>{identity.name}</h3><p>{venture.tagline}</p></div><span className="detail-score"><strong>{venture.matchScore}</strong><small>sample match</small></span></div>
     <div className="detail-tabs" role="tablist" aria-label="Venture record sections">{tabs.map(([id, label]) => <button key={id} type="button" role="tab" aria-selected={activeTab === id} onClick={() => onTabChange(id)}>{label}</button>)}</div>
 

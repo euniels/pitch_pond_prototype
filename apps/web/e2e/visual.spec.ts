@@ -20,6 +20,7 @@ test("public and authentication shells keep approved responsive baselines", asyn
     for (const [name, route] of [
       ["home", "/"],
       ["intelligence", "/intelligence"],
+      ["demo", "/demo"],
       ["sign-in", "/sign-in"],
     ] as const) {
       await page.goto(route);

@@ -6,10 +6,10 @@ test("public value proposition is complete and contains no crowdfunding language
 }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Fundability before fundraising",
+    "Build the proof",
   );
   await expect(
-    page.getByText("Measured pilot—not vanity metrics"),
+    page.getByText("Measured pilot · not manufactured momentum"),
   ).toBeVisible();
   await expect(page.locator("body")).not.toContainText(
     /pledge|escrow|paymongo|success prediction/i,
@@ -135,19 +135,19 @@ test("venture intelligence recalculates scenarios and switches perspectives", as
   ).toBeVisible();
 });
 
-test("public light default and explicit dark choice persist accessibly", async ({ page }) => {
-  await page.emulateMedia({ colorScheme: "dark" });
+test("public dark default and explicit light choice persist accessibly", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "light" });
   await page.goto("/");
-  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
-  const toggle = page.getByRole("button", { name: "Use dark mode" });
-  await toggle.click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  const toggle = page.getByRole("button", { name: "Use light mode" });
+  await toggle.click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   await expect(
-    page.getByRole("button", { name: "Use light mode" }),
+    page.getByRole("button", { name: "Use dark mode" }),
   ).toBeVisible();
 
   await page.reload();
-  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   const results = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
     .analyze();
@@ -208,7 +208,7 @@ test("primary navigation and calls to action are keyboard reachable", async ({
   expect(firstFocus).toBe("A");
   const primaryCta = page
     .getByRole("main")
-    .getByRole("link", { name: "Join the pilot" });
+    .getByRole("link", { name: "Join the controlled pilot" });
   await expect(primaryCta).toBeVisible();
   await primaryCta.focus();
   await primaryCta.press("Enter");

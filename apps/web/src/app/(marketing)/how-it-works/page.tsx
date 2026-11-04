@@ -9,6 +9,7 @@ import {
 import { ContentPage } from "@/components/content-page";
 import { FaqSection } from "@/components/faq-section";
 import { contentPages } from "@/lib/content";
+import { editorialMedia } from "@/lib/editorial-media";
 
 export const metadata = { title: "How it works" };
 const icons = [
@@ -24,6 +25,8 @@ export default function Page() {
   return (
     <ContentPage
       {...copy}
+      media={editorialMedia.hero}
+      chapterLabel="The complete evidence-to-introduction path"
       items={copy.items.map((item, index) => ({
         ...item,
         icon: icons[index]!,

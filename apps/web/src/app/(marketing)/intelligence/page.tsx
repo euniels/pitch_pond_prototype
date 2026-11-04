@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, BadgeCheck, BrainCircuit, LineChart, ShieldCheck } from "lucide-react";
 import { FuturePathways } from "@/components/future-pathways";
 import { VentureProjectionLab } from "@/components/venture-projection-lab";
+import { editorialMedia } from "@/lib/editorial-media";
 
 export const metadata = {
   title: "Venture intelligence",
@@ -13,6 +14,7 @@ export default function Page() {
   return (
     <main>
       <section className="page-hero intelligence-hero ocean-hero">
+        <Image className="intelligence-hero-image" src={editorialMedia.network.src} alt="" fill priority sizes="100vw" aria-hidden="true" />
         <div className="hero-rays" />
         <div className="shell intelligence-hero-grid">
           <div>
@@ -43,3 +45,4 @@ export default function Page() {
     </main>
   );
 }
+import Image from "next/image";

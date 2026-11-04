@@ -3,6 +3,7 @@ import { ArrowRight, Info } from "lucide-react";
 import { ProductTour } from "@/components/product-tour";
 import { SectionHeading } from "@/components/section-heading";
 import { VentureSandbox } from "@/components/venture-sandbox";
+import { editorialMedia } from "@/lib/editorial-media";
 export const metadata = {
   title: "Product tour",
   robots: { index: false, follow: false },
@@ -10,7 +11,9 @@ export const metadata = {
 export default function Page() {
   return (
     <main>
-      <section className="page-hero compact ocean-hero">
+      <section className="page-hero compact ocean-hero demo-cinematic-hero">
+        <Image src={editorialMedia.institution.src} alt={editorialMedia.institution.alt} fill priority sizes="100vw" />
+        <div className="editorial-page-shade" aria-hidden="true" />
         <div className="hero-rays" />
         <div className="shell">
           <span className="eyebrow light">Synthetic product tour</span>
@@ -48,3 +51,4 @@ export default function Page() {
     </main>
   );
 }
+import Image from "next/image";

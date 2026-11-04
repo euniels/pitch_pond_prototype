@@ -5,23 +5,25 @@ import { featuredVentures } from "@/lib/content";
 
 export function FeaturedVentures() {
   return (
-    <div className="featured-venture-grid">
-      {featuredVentures.map((venture) => (
-        <article className="featured-venture-card" key={venture.slug}>
-          <div className="featured-venture-image">
+    <div className="venture-story-list">
+      {featuredVentures.map((venture, index) => (
+        <article className="venture-story" data-tone={venture.image.tone} key={venture.slug}>
+          <div className="venture-story-media">
             <Image
               src={venture.image.src}
               alt={venture.image.alt}
               fill
-              loading={venture.slug === "amihan-cold-chain" ? "eager" : "lazy"}
-              sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 390px"
+              loading="lazy"
+              sizes="(max-width: 760px) 100vw, 58vw"
               style={{ objectPosition: venture.image.position }}
             />
             <span className="synthetic-media-badge">
               <ShieldCheck /> Synthetic sample
             </span>
+            <span className="venture-story-number">{String(index + 1).padStart(2, "0")}</span>
           </div>
-          <div className="featured-venture-body">
+          <div className="venture-story-copy">
+            <span className="eyebrow">Venture field note</span>
             <div className="venture-tags">
               <span>{venture.sector}</span>
               <span>{venture.stage}</span>
@@ -31,11 +33,17 @@ export function FeaturedVentures() {
             <span className="sample-location">
               <MapPin /> {venture.location}
             </span>
-            <div className="featured-venture-progress">
+            <div className="venture-story-metrics">
               <div>
-                <span>{venture.readiness}% readiness</span>
-                <span>{venture.evidence} evidence links</span>
+                <strong>{venture.readiness}%</strong>
+                <span>readiness completion</span>
               </div>
+              <div>
+                <strong>{venture.evidence}</strong>
+                <span>linked evidence records</span>
+              </div>
+            </div>
+            <div className="featured-venture-progress">
               <div className="sample-progress" aria-hidden="true">
                 <span style={{ width: `${venture.readiness}%` }} />
               </div>

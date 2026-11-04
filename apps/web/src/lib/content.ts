@@ -1,3 +1,5 @@
+import { editorialMedia } from "@/lib/editorial-media";
+
 export const navItems = [
   { href: "/how-it-works", label: "How it works" },
   { href: "/founder-studio", label: "For founders" },
@@ -55,12 +57,7 @@ export const featuredVentures = [
     location: "Calamba, Laguna",
     readiness: 85,
     evidence: 22,
-    image: {
-      src: "/images/ventures/amihan-cold-chain.webp",
-      alt: "A fictional Filipino cold-chain founder inspecting vegetables beside a solar-powered farm cold room.",
-      position: "center",
-      tone: "aqua",
-    },
+    image: editorialMedia.climate,
   },
   {
     slug: "luntian-loop-materials",
@@ -71,28 +68,52 @@ export const featuredVentures = [
     location: "Antipolo, Rizal",
     readiness: 74,
     evidence: 17,
-    image: {
-      src: "/images/ventures/luntian-loop-materials.webp",
-      alt: "A fictional Filipina materials founder examining a construction panel made from recovered plastic.",
-      position: "center",
-      tone: "lime",
-    },
+    image: editorialMedia.circular,
   },
   {
     slug: "lakbay-health-logistics",
     name: "Lakbay Health Logistics",
-    summary: "Coordinates temperature-safe diagnostic routes for rural clinics.",
+    summary:
+      "Coordinates temperature-safe diagnostic routes for rural clinics.",
     sector: "Health logistics",
     stage: "Prototype",
     location: "Batangas City",
     readiness: 67,
     evidence: 13,
-    image: {
-      src: "/images/ventures/lakbay-health-logistics.webp",
-      alt: "A fictional rural-health coordinator preparing an insulated diagnostic carrier beside a clinic vehicle.",
-      position: "center",
-      tone: "blue",
-    },
+    image: editorialMedia.health,
+  },
+  {
+    slug: "tanimsense",
+    name: "TanimSense",
+    summary: "Low-bandwidth crop monitoring for high-value vegetable farms.",
+    sector: "Agriculture",
+    stage: "Pilot",
+    location: "Los Baños, Laguna",
+    readiness: 72,
+    evidence: 15,
+    image: editorialMedia.agriculture,
+  },
+  {
+    slug: "aralbay-skills",
+    name: "AralBay Skills",
+    summary: "Employer-linked micro-courses for provincial service workers.",
+    sector: "Education",
+    stage: "Early revenue",
+    location: "Lucena, Quezon",
+    readiness: 79,
+    evidence: 19,
+    image: editorialMedia.education,
+  },
+  {
+    slug: "habiworks",
+    name: "HabiWorks Collective",
+    summary: "Order and production tools for women-led artisan groups.",
+    sector: "Enterprise software",
+    stage: "Prototype",
+    location: "San Fernando, Pampanga",
+    readiness: 61,
+    evidence: 10,
+    image: editorialMedia.enterprise,
   },
 ] as const;
 
@@ -398,7 +419,6 @@ export const policyCopy = {
     ],
   },
 } as const;
-
 // English is the complete pilot locale. Page components consume this dictionary
 // so a future `fil` dictionary can be introduced without restructuring routes.
 export const contentPages = {
@@ -611,3 +631,5 @@ export const contentPages = {
     ],
   },
 } as const;
+
+// End of the English-complete pilot content dictionary.

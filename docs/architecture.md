@@ -14,6 +14,8 @@ Evidence content is never public. Uploads begin in a private bucket and `quarant
 
 Platform audit events are immutable. Identity reveals, grants, invitations, and sensitive operations create audit records. Institution managers and platform administrators require an AAL2 Supabase session, with RLS enforcing AAL2 for manager and administrator access as defense in depth.
 
+Evidence scanning runs outside Vercel in the dedicated `services/scanner` container. The Vercel completion route downloads a quarantined object server-side and submits it over authenticated HTTPS. The scanner validates the request envelope and streams the in-memory file to its colocated ClamAV daemon; no evidence is written to scanner storage. Only a clean result can advance an evidence record beyond quarantine. Missing credentials, scanner unavailability, malformed responses, and timeouts fail closed.
+
 ## Deterministic product rules
 
 Readiness is checklist completion and evidence coverage across problem, market, solution, traction, team, business model, use of funds, financial readiness, and legal/business readiness.

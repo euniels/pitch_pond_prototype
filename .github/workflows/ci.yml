@@ -37,3 +37,15 @@ jobs:
           version: latest
       - run: supabase start -x realtime,imgproxy,studio,edge-runtime,logflare,vector
       - run: supabase test db
+
+  scanner:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/scanner
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm test

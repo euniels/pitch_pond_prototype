@@ -9,6 +9,62 @@ export const navItems = [
   { href: "/pricing", label: "Pricing" },
 ];
 
+export const headerNavigation = [
+  {
+    label: "Platform",
+    links: [
+      {
+        href: "/how-it-works",
+        label: "How it works",
+        description: "From venture evidence to qualified introductions.",
+      },
+      {
+        href: "/evidence-vault",
+        label: "Evidence Vault",
+        description: "Private, permissioned proof behind every claim.",
+      },
+      {
+        href: "/demo",
+        label: "Product tour",
+        description: "Explore the platform through fictional venture data.",
+      },
+    ],
+  },
+  {
+    label: "Solutions",
+    links: [
+      {
+        href: "/founder-studio",
+        label: "For founders",
+        description: "Build readiness, evidence, and measurable goals.",
+      },
+      {
+        href: "/matching",
+        label: "For investors & mentors",
+        description: "Review explainable fit without pay-to-rank influence.",
+      },
+      {
+        href: "/institutions",
+        label: "For institutions",
+        description: "Coordinate cohorts, reviewers, and pilot outcomes.",
+      },
+    ],
+  },
+  { href: "/intelligence", label: "Intelligence" },
+  { href: "/pricing", label: "Pricing" },
+] as const;
+
+export const mobileNavItems = [
+  { href: "/how-it-works", label: "How it works" },
+  { href: "/evidence-vault", label: "Evidence Vault" },
+  { href: "/demo", label: "Product tour" },
+  { href: "/founder-studio", label: "For founders" },
+  { href: "/matching", label: "For investors & mentors" },
+  { href: "/institutions", label: "For institutions" },
+  { href: "/intelligence", label: "Intelligence" },
+  { href: "/pricing", label: "Pricing" },
+] as const;
+
 export const footerGroups = [
   {
     title: "Platform",

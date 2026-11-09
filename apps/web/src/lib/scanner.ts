@@ -1,4 +1,15 @@
+import { z } from "zod";
+
 export type ScanResult = { clean: boolean; provider: string; reason?: string };
+
+const scannerResponseSchema = z.object({
+  clean: z.boolean().optional(),
+  malware: z.boolean().optional(),
+  status: z.string().max(40).optional(),
+  provider: z.string().max(80).optional(),
+  message: z.string().max(500).optional(),
+  reason: z.string().max(500).optional(),
+});
 
 export function scanningConfigured() {
   return Boolean(
@@ -53,18 +64,33 @@ export async function scanAttachment(
       provider: "attachment-scanner",
       reason: "The scanner could not verify this file.",
     };
-  const result = (await response.json()) as {
-    status?: string;
-    clean?: boolean;
-    malware?: boolean;
-    message?: string;
-  };
+  const result = scannerResponseSchema.parse(await response.json());
   return {
     clean:
       result.clean === true ||
       result.status === "clean" ||
       result.malware === false,
-    provider: "attachment-scanner",
-    reason: result.message,
+    provider: result.provider ?? "attachment-scanner",
+    reason: result.reason ?? result.message,
   };
+}
+
+export async function scannerHealth() {
+  const endpoint = process.env.ATTACHMENT_SCANNER_ENDPOINT;
+  if (!endpoint) return false;
+  try {
+    const healthUrl = new URL(endpoint);
+    healthUrl.pathname = "/health";
+    healthUrl.search = "";
+    const response = await fetch(healthUrl, {
+      headers: { Accept: "application/json" },
+      cache: "no-store",
+      signal: AbortSignal.timeout(5_000),
+    });
+    if (!response.ok) return false;
+    const result = (await response.json()) as { status?: string };
+    return result.status === "ready";
+  } catch {
+    return false;
+  }
 }

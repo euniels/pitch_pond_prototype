@@ -177,6 +177,28 @@ test("compact navigation opens, identifies the current route, and closes with Es
   await expect(trigger).toBeFocused();
 });
 
+test("premium desktop navigation exposes grouped routes and responds to scroll", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  const header = page.locator(".site-header");
+  const platform = page.getByRole("button", { name: "Platform" });
+  await platform.click();
+  await expect(platform).toHaveAttribute("aria-expanded", "true");
+  await expect(
+    page.getByRole("link", { name: /Evidence Vault/ }).first(),
+  ).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(platform).toHaveAttribute("aria-expanded", "false");
+  await expect(platform).toBeFocused();
+
+  await page.evaluate(() => window.scrollTo({ top: 500, behavior: "instant" }));
+  await expect(header).toHaveAttribute("data-scrolled", "");
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+  await expect(header).not.toHaveAttribute("data-scrolled", "");
+});
+
 test("key public routes do not overflow at release breakpoints", async ({
   page,
 }) => {

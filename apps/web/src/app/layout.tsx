@@ -1,10 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Manrope, Sora } from "next/font/google";
 import { headers } from "next/headers";
-import "./globals.css";
-import "./visual-system.css";
-import "./redesign.css";
-import "./cinematic.css";
+import "./premium.css";
 
 const bodyFont = Manrope({
   subsets: ["latin"],

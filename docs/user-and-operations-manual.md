@@ -280,7 +280,7 @@ Use audit records for reveals, access grants, invitations, rubric activation, me
 - push access to the intended Git repository, or permission to deploy the checked-out source directly;
 - separate Singapore-region Supabase staging and production projects;
 - OpenAI API key and an available configured model;
-- AttachmentScanner-compatible endpoint/token;
+- user-owned Railway project for the private ClamAV scanner in Singapore;
 - Resend API key, verified sender domain, and Supabase SMTP configuration;
 - operational mailbox, cron secret, and approved retention days;
 - Philippine legal/privacy approval before inviting external participants.
@@ -327,15 +327,25 @@ Only the first three values are public by design. Never prefix any other secret 
 5. In the existing project, set **Root Directory** to `apps/web`. Do not create a replacement project and do not change PioneerPath or another visible project.
 6. Add Preview values using the staging providers and Production values using production providers. Environment changes require a new deployment.
 
+### Deploy the private scanner
+
+1. Create a Railway project owned by the same organization as the pilot infrastructure.
+2. Add a service from this repository with Root Directory `services/scanner`; Railway uses the included Dockerfile and health-check configuration.
+3. Select Singapore region `asia-southeast1-eqsg3a` and attach a persistent volume at `/var/lib/clamav` for signature data.
+4. Generate a unique high-entropy `SCANNER_TOKEN`, configure it only in Railway and the matching Vercel environment, and expose the Railway HTTPS domain.
+5. Verify `GET /health`, an authenticated clean file, missing/incorrect bearer tokens, malformed multipart data, a file over 10MB, every permitted extension/MIME pair, EICAR rejection, timeout behavior, and redacted logs.
+6. Set `ATTACHMENT_SCANNER_ENDPOINT` to the HTTPS domain plus `/scan`. Keep `file_uploads` disabled until both staging and production scanner acceptance passes.
+
 ### Create and accept a protected Preview
 
-1. Push `feat/fundability-pilot` or deploy the branch to a protected Preview of the existing project.
+1. Push `feat/cinematic-venture-tech` or deploy the branch to a protected Preview of the existing project.
 2. Confirm the Preview uses staging Supabase and staging-only credentials.
 3. Run from `apps/web`:
 
 ```powershell
 npm ci
 npm test
+npm --prefix ../../services/scanner test
 npm run lint
 npm run typecheck
 npm run build
@@ -361,7 +371,7 @@ Use synthetic accounts and complete every journey:
 8. **Admin:** MFA enforcement → plan assignment → feature flag → valid rubric activation → invalid rubric rejection → quarantine rejection → audit view.
 9. **AI:** explicit consent → each purpose → valid structured response → fabricated ID rejection → refusal → timeout → rate limit → provider outage fallback.
 10. **Data rights:** export → evidence delete → venture delete → account deletion request → retention job.
-11. **Accessibility/responsiveness:** keyboard, visible focus, screen reader names/headings, reduced motion, contrast, and widths 320/375/768/1024/1440.
+11. **Accessibility/responsiveness:** keyboard, visible focus, screen reader names/headings, reduced motion, contrast, and widths 320/375/768/1024/1105/1440.
 12. **Projection:** create a metric and goal, calculate with two verified observations, confirm the assumption-based label, add a third qualifying observation spanning 60 days, and confirm a new data-backed snapshot.
 13. **Projection sharing:** create an indexed matched-investor share, inspect Blind First Look, request exact values, accept an introduction, grant expiring exact access, verify the audit event, and confirm revoke/expiry denial.
 14. **Projection isolation:** change the plan, organization name/prestige, AI narrative, and match score independently and prove that the projection input hash and percentage remain unchanged.

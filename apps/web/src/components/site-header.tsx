@@ -1,23 +1,20 @@
-import Link from "next/link";
 import { Brand } from "./brand";
-import { navItems } from "@/lib/content";
+import { headerNavigation, mobileNavItems } from "@/lib/content";
 import { getOptionalUser } from "@/lib/auth";
 import { ThemeToggle } from "./theme-toggle";
 import { MobileNavigation } from "./mobile-navigation";
+import { DesktopNavigation } from "./desktop-navigation";
+import { HeaderScrollState } from "./header-scroll-state";
+import Link from "next/link";
 
 export async function SiteHeader() {
   const user = await getOptionalUser();
   return (
     <header className="site-header">
+      <HeaderScrollState />
       <div className="shell header-inner">
         <Brand />
-        <nav className="desktop-nav" aria-label="Main navigation">
-          {navItems.map((item) => (
-            <Link key={item.href} href={item.href}>
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+        <DesktopNavigation entries={headerNavigation} />
         <div className="header-actions">
           <ThemeToggle />
           <Link
@@ -33,7 +30,7 @@ export async function SiteHeader() {
             {user ? "Open workspace" : "Join the pilot"}
           </Link>
           <MobileNavigation
-            items={[...navItems]}
+            items={[...mobileNavItems]}
             accountHref={user ? "/workspace" : "/sign-in"}
             accountLabel={user ? "Workspace" : "Sign in"}
           />

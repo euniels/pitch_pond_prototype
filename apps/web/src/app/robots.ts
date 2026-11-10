@@ -8,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/workspace/", "/api/", "/invite/"],
       },
     ],
-    sitemap: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://pitchpondprototype.vercel.app"}/sitemap.xml`,
+    sitemap: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://pitchpond.vercel.app"}/sitemap.xml`,
   };
 }

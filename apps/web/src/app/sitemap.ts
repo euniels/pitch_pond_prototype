@@ -16,7 +16,7 @@ const routes = [
 ];
 export default function sitemap(): MetadataRoute.Sitemap {
   const base =
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://pitchpondprototype.vercel.app";
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://pitchpond.vercel.app";
   return routes.map((route) => ({
     url: `${base}${route}`,
     lastModified: new Date("2026-10-18"),

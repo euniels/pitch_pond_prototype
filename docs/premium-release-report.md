@@ -46,6 +46,6 @@ The local production candidate passed the complete repository gate on 9 November
 
 ## Cloud release state
 
-Production promotion is not yet possible from this workstation. The authenticated Vercel account `gershancg-8358` cannot access the team/project that owns `pitchpondprototype.vercel.app`; the repository is therefore intentionally not linked to any replacement project. Supabase staging/production projects, Railway, OpenAI, Resend, SMTP, and scanner credentials are also not authenticated in this workspace.
+On 10 November 2026, the owner of the former Vercel project authorized publication under the user's own account. The application is deployed as project `pitchpond` under `gershan-carl-guerrero-bons-projects`, with Node.js 24.x, Singapore functions, an immutable validated Preview, and the public production alias `https://pitchpond.vercel.app`.
 
-Once those user-owned resources are available, follow `docs/deployment.md`: deploy the protected Preview, apply and test existing migrations, generate database types, validate the Railway scanner, complete role acceptance, promote the exact Preview to the existing alias, then enable feature flags one at a time.
+Supabase staging/production projects, Railway, OpenAI, Resend, SMTP, and scanner credentials are not authenticated in this workspace. The public product experience is live, while authenticated and provider-dependent workflows remain fail-closed. Follow `docs/deployment.md` to provision those resources, apply and test migrations, generate database types, validate the Railway scanner, complete role acceptance, and then enable feature flags one at a time.

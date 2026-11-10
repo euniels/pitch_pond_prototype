@@ -22,7 +22,7 @@ const editorialFont = Cormorant_Garamond({
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://pitchpondprototype.vercel.app",
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://pitchpond.vercel.app",
   ),
   title: {
     default: "PitchPond — Fundability before fundraising",
